@@ -6,7 +6,17 @@ function frylord(app, opts, cb){
 
   var namespace = opts.namespace || 'workspace';
 
-  app.expose(namespace, new Workspace());
+  var space = new Workspace();
+
+  app.expose(namespace, space);
+
+  // TODO: make workspace an EE?
+  space._structure.on('swap', function(){
+    // allow initial setup without render
+    if(app._renderCalled){
+      app.render();
+    }
+  });
 
   cb();
 }
