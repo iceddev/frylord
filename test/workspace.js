@@ -223,4 +223,46 @@ lab.experiment('Workspace', function(){
       });
     });
   });
+
+  lab.experiment('#deleteDir', function(){
+
+    var dirname = '.tmpDir';
+
+    lab.beforeEach(function(done){
+      space.changeDir(dirname, done);
+    });
+
+    lab.test('deletes directory & removes from project structure', function(done){
+
+      code.expect(space.projects.contains(dirname)).to.equal(true);
+
+      space.deleteDir(dirname, function(err){
+        code.expect(err).to.not.exist();
+
+        var exists = fs.existsSync(dirname);
+
+        code.expect(exists).to.equal(false);
+        code.expect(space.projects.contains(dirname)).to.equal(false);
+        done(err);
+      });
+    });
+
+    lab.test('accepts a cursor for path', function(done){
+      space.cwd.update(function(){
+        return dirname;
+      });
+
+      code.expect(space.projects.contains(dirname)).to.equal(true);
+
+      space.deleteDir(space.cwd, function(err){
+        code.expect(err).to.not.exist();
+
+        var exists = fs.existsSync(dirname);
+
+        code.expect(exists).to.equal(false);
+        code.expect(space.projects.contains(dirname)).to.equal(false);
+        done(err);
+      });
+    });
+  });
 });
