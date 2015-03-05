@@ -143,6 +143,18 @@ lab.experiment('Workspace', function(){
     });
   });
 
+  lab.test('#loadFile will load a file based on cwd', function(done){
+    space.changeDir('.tmp', function(){
+      var filename = tmpFilepath.replace('.tmp/', '');
+      space.loadFile(filename, function(err, contents){
+        code.expect(err).to.not.exist();
+        code.expect(contents).to.equal(space.current);
+        code.expect(space.filename.deref()).to.equal(filename);
+        done();
+      });
+    })
+  });
+
   lab.test('#changeDir should adjust cwd and add files to directory structure', function(done){
     space.changeDir('.tmp', function(err, files){
       code.expect(err).to.not.exist();
