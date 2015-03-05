@@ -152,7 +152,7 @@ lab.experiment('Workspace', function(){
         code.expect(space.filename.deref()).to.equal(filename);
         done();
       });
-    })
+    });
   });
 
   lab.test('#changeDir should adjust cwd and add files to directory structure', function(done){
@@ -172,4 +172,55 @@ lab.experiment('Workspace', function(){
     });
   });
 
+  lab.experiment('#deleteFile', function(){
+
+    var text = 'function helloWorld(hello){\n  hello = "world";\n}';
+
+    // sub-experiment to create files
+    lab.beforeEach(function(done){
+      fs.writeFile(tmpFilepath, text, 'utf8', done);
+    });
+
+    lab.test('deletes a file that exists & removes from directory structure', function(done){
+      space.changeDir('.tmp', function(){
+        var filename = tmpFilepath.replace('.tmp/', '');
+
+        code.expect(space.directory.contains(filename)).to.equal(true);
+
+        space.deleteFile(filename, function(err){
+          code.expect(err).to.not.exist();
+
+          var exists = fs.existsSync(tmpFilepath);
+
+          code.expect(exists).to.equal(false);
+          code.expect(space.filename.deref()).to.equal('');
+          code.expect(space.current.deref()).to.equal('');
+          code.expect(space.directory.contains(filename)).to.equal(false);
+          done(err);
+        });
+      });
+    });
+
+    lab.test('accepts a cursor for filepath', function(done){
+      space.filename.update(function(){
+        return tmpFilepath.replace('.tmp/', '');
+      });
+
+      space.changeDir('.tmp', function(){
+        code.expect(space.directory.contains(space.filename)).to.equal(true);
+
+        space.deleteFile(space.filename, function(err){
+          code.expect(err).to.not.exist();
+
+          var exists = fs.existsSync(tmpFilepath);
+
+          code.expect(exists).to.equal(false);
+          code.expect(space.filename.deref()).to.equal('');
+          code.expect(space.current.deref()).to.equal('');
+          code.expect(space.directory.contains(space.filename)).to.equal(false);
+          done(err);
+        });
+      });
+    });
+  });
 });
