@@ -93,12 +93,8 @@ lab.experiment('TempWorkspace', function(){
     });
   });
 
-  lab.test('#updateContent does not create a temp file if cwd is root', function(done){
+  lab.test('#updateContent does not create a temp file if no filename', function(done){
     var newText = 'new text';
-
-    space.filename.update(function(){
-      return filepath;
-    });
 
     space.updateContent(newText, function(updateErr){
       code.expect(updateErr).to.not.exist();
