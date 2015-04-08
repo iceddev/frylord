@@ -6,6 +6,7 @@ var lab = exports.lab = require('lab').script();
 var code = require('code');
 
 var Workspace = require('../lib/workspace');
+var helpers = require('../lib/helpers');
 
 lab.experiment('Workspace', function(){
 
@@ -74,6 +75,16 @@ lab.experiment('Workspace', function(){
     done();
   });
 
+  lab.test('#updateContent can be used to update the current cursor', function(done){
+    var newText = 'function helloWorld(hello){\n  foo = "bar";\n}';
+    space.updateContent(newText, function(err, content){
+      code.expect(err).to.not.exist();
+      code.expect(content.deref()).to.equal(newText);
+      code.expect(content).to.equal(space.current);
+      done(err);
+    });
+  });
+
   lab.test('#saveFile will mkdirp and save a file', function(done){
     var newText = 'function helloWorld(hello){\n  foo = "bar";\n}';
 
@@ -102,12 +113,13 @@ lab.experiment('Workspace', function(){
     });
   });
 
-  lab.test('#saveFile adds the file to the directory listing', function(done){
+  lab.test('#saveFile does not add the file to the directory listing if cwd === root', function(done){
     var newText = 'function helloWorld(hello){\n  foo = "bar";\n}';
+    var filename = tmpFilepath.replace('.tmp/', '');
 
     space.saveFile(tmpFilepath, newText, function(err){
       code.expect(err).to.not.exist();
-      code.expect(space.directory.contains(tmpFilepath)).to.equal(true);
+      code.expect(helpers.containsFile(space.directory, filename)).to.equal(false);
       done(err);
     });
   });
@@ -185,7 +197,7 @@ lab.experiment('Workspace', function(){
       space.changeDir('.tmp', function(){
         var filename = tmpFilepath.replace('.tmp/', '');
 
-        code.expect(space.directory.contains(filename)).to.equal(true);
+        code.expect(helpers.containsFile(space.directory, filename)).to.equal(true);
 
         space.deleteFile(filename, function(err){
           code.expect(err).to.not.exist();
@@ -195,7 +207,7 @@ lab.experiment('Workspace', function(){
           code.expect(exists).to.equal(false);
           code.expect(space.filename.deref()).to.equal('');
           code.expect(space.current.deref()).to.equal('');
-          code.expect(space.directory.contains(filename)).to.equal(false);
+          code.expect(helpers.containsFile(space.directory, filename)).to.equal(false);
           done(err);
         });
       });
@@ -207,7 +219,7 @@ lab.experiment('Workspace', function(){
       });
 
       space.changeDir('.tmp', function(){
-        code.expect(space.directory.contains(space.filename)).to.equal(true);
+        code.expect(helpers.containsFile(space.directory, space.filename)).to.equal(true);
 
         space.deleteFile(space.filename, function(err){
           code.expect(err).to.not.exist();
@@ -217,7 +229,7 @@ lab.experiment('Workspace', function(){
           code.expect(exists).to.equal(false);
           code.expect(space.filename.deref()).to.equal('');
           code.expect(space.current.deref()).to.equal('');
-          code.expect(space.directory.contains(space.filename)).to.equal(false);
+          code.expect(helpers.containsFile(space.directory, space.filename)).to.equal(false);
           done(err);
         });
       });
