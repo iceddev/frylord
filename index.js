@@ -1,12 +1,18 @@
 'use strict';
 
 var Workspace = require('./lib/workspace');
+var TempWorkspace = require('./lib/temp-workspace');
 
 function frylord(app, opts, cb){
 
   var namespace = opts.namespace || 'workspace';
 
-  var space = new Workspace();
+  var space;
+  if(opts.useTempFiles){
+    space = new TempWorkspace();
+  } else {
+    space = new Workspace();
+  }
 
   app.expose(namespace, space);
 
