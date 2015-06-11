@@ -58,4 +58,8 @@ class WorkspaceStore {
   }
 }
 
+WorkspaceStore.config = {
+  stateKey: 'state'
+};
+
 module.exports = alt.createStore(WorkspaceStore);
