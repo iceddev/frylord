@@ -1,7 +1,9 @@
 'use strict';
 
-const fs = require('fs-extra');
 const path = require('path');
+
+const _ = require('lodash');
+const fs = require('fs-extra');
 
 const alt = require('../alt');
 const { updateFilename, updateContent } = require('../actions/current');
@@ -24,6 +26,8 @@ class WorkspaceStore {
     });
 
     this.state = {
+      status: '',
+      message: '',
       root: '/',
       filename: '',
       content: '',
@@ -39,7 +43,6 @@ class WorkspaceStore {
     this.setState({
       error: err
     });
-    throw new Error(err.message);
   }
 
   resolveDir(dir){
@@ -48,6 +51,15 @@ class WorkspaceStore {
 
   resolveFile(relativePath){
     return path.resolve(this.resolveDir(this.state.cwd), relativePath);
+  }
+
+  updateStatus(status){
+    const { statuses } = this.getInstance();
+
+    this.setState({
+      status: status,
+      message: _.template(statuses[status])(this.state)
+    });
   }
 
   updateProjectList(){
@@ -77,88 +89,94 @@ class WorkspaceStore {
   }
 
   onChangeDirectory(dir){
-    var dirpath = this.resolveDir(dir);
-    fs.ensureDir(dirpath, (err) => {
+    this.updateStatus('DIRECTORY_CHANGE_PROGRESS');
+
+    fs.ensureDir(this.resolveDir(dir), (err) => {
       if(err){
         this.handleError(err);
-      }else{
+        this.updateStatus('DIRECTORY_CHANGE_FAILURE');
+      } else {
         this.setState({
-          cwd: dir,
-          directory: []
+          cwd: dir
         });
         this.updateProjectList();
         this.updateDirectory(dir);
+        this.updateStatus('DIRECTORY_CHANGE_SUCCESS');
       }
     });
   }
 
   onDeleteDirectory(dirname){
+    this.updateStatus('DIRECTORY_DELETE_PROGRESS');
+
     fs.remove(this.resolveDir(dirname), (err) => {
       if(err){
         this.handleError(err);
-      }else{
+        this.updateStatus('DIRECTORY_DELETE_FAILURE');
+      } else {
         this.setState({
-          dirname: '',
+          cwd: '',
           filename: '',
           content: ''
         });
+        this.updateStatus('DIRECTORY_DELETE_SUCCESS');
       }
     });
   }
 
   onLoadFile(filepath){
+    this.updateStatus('FILE_LOAD_PROGRESS');
+
     fs.readFile(this.resolveFile(filepath), (err, data) => {
       if(err){
         this.handleError(err);
-      }else{
-        console.log('loadfile', filepath, data);
+        this.updateStatus('FILE_LOAD_FAILURE');
+      } else {
         this.setState({
           content: data
         });
+        this.updateStatus('FILE_LOAD_SUCCESS');
       }
     });
   }
 
   onSaveFile(opts){
+    this.updateStatus('FILE_SAVE_PROGRESS');
+
     fs.outputFile(this.resolveFile(opts.filename), opts.content, (err) => {
       if(err){
         this.handleError(err);
-      }else{
+        this.updateStatus('FILE_SAVE_FAILURE');
+      } else {
         this.updateDirectory(this.resolveDir(this.state.cwd));
+        this.updateStatus('FILE_SAVE_SUCCESS');
       }
     });
   }
 
   onDeleteFile(filename){
+    this.updateStatus('FILE_DELETE_PROGRESS');
+
     fs.unlink(this.resolveFile(filename), (err) => {
       if(err){
         this.handleError(err);
-      }else{
+        this.updateStatus('FILE_DELETE_FAILURE');
+      } else {
         this.setState({
           filename: '',
           content: ''
         });
+        this.updateStatus('FILE_DELETE_SUCCESS');
       }
     });
   }
 
   onUpdateFilename(filename){
-    fs.move(this.resolveFile(this.state.filename), this.resolveFile(filename), (err) => {
-      if(err){
-        this.handleError(err);
-      }else{
-        this.setState({
-          filename: filename
-        });
-        this.updateDirectory(this.state.cwd);
-      }
-    });
+    this.setState({ filename });
   }
 
   onUpdateContent(content){
-    this.setState({
-      content: content
-    });
+    this.setState({ content });
   }
 }
 
