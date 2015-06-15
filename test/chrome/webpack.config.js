@@ -4,7 +4,7 @@ var path = require('path');
 
 module.exports = {
   devtool: 'source-map',
-  entry: './src/index.js',
+  entry: './test/chrome/index.js',
   output: {
     path: __dirname,
     filename: 'bundle.js'

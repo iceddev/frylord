@@ -52,6 +52,14 @@
 	var directoryActions = __webpack_require__(83);
 	
 	console.log(Workspace, fileActions, currentActions, directoryActions);
+	
+	directoryActions.changeDirectory('/testfolder');
+	setTimeout(function () {
+	  fileActions.saveFile('test-thing.txt', 'test me thing');
+	  setTimeout(function () {
+	    fileActions.loadFile('test-thing.txt');
+	  }, 1000);
+	}, 1000);
 
 /***/ },
 /* 1 */
@@ -119,6 +127,7 @@
 	      this.setState({
 	        error: err
 	      });
+	      throw new Error(err.message);
 	    }
 	  }, {
 	    key: 'resolveDir',
@@ -133,11 +142,14 @@
 	  }, {
 	    key: 'updateProjectList',
 	    value: function updateProjectList() {
+	      var _this = this;
+	
 	      fs.readdir(this.state.root, function (err, folders) {
+	        console.log('updatefolders', err, folders);
 	        if (err) {
-	          this.handleError(err);
+	          _this.handleError(err);
 	        } else {
-	          this.setState({
+	          _this.setState({
 	            projects: folders
 	          });
 	        }
@@ -146,11 +158,14 @@
 	  }, {
 	    key: 'updateDirectory',
 	    value: function updateDirectory(dirpath) {
+	      var _this2 = this;
+	
 	      fs.readdir(this.resolveDir(dirpath), function (err, files) {
+	        console.log('updatedir', err, files);
 	        if (err) {
-	          this.handleError(err);
+	          _this2.handleError(err);
 	        } else {
-	          this.setState({
+	          _this2.setState({
 	            directory: files
 	          });
 	        }
@@ -159,28 +174,32 @@
 	  }, {
 	    key: 'onChangeDirectory',
 	    value: function onChangeDirectory(dir) {
+	      var _this3 = this;
+	
 	      var dirpath = this.resolveDir(dir);
 	      fs.ensureDir(dirpath, function (err) {
 	        if (err) {
-	          this.handleError(err);
+	          _this3.handleError(err);
 	        } else {
-	          this.setState({
+	          _this3.setState({
 	            cwd: dir,
 	            directory: []
 	          });
-	          this.updateProjectList();
-	          this.updateDirectory(dir);
+	          _this3.updateProjectList();
+	          _this3.updateDirectory(dir);
 	        }
 	      });
 	    }
 	  }, {
 	    key: 'onDeleteDirectory',
 	    value: function onDeleteDirectory(dirname) {
+	      var _this4 = this;
+	
 	      fs.remove(this.resolveDir(dirname), function (err) {
 	        if (err) {
-	          this.handleError(err);
+	          _this4.handleError(err);
 	        } else {
-	          this.setState({
+	          _this4.setState({
 	            dirname: '',
 	            filename: '',
 	            content: ''
@@ -191,11 +210,14 @@
 	  }, {
 	    key: 'onLoadFile',
 	    value: function onLoadFile(filepath) {
+	      var _this5 = this;
+	
 	      fs.readFile(this.resolveFile(filepath), function (err, data) {
 	        if (err) {
-	          this.handleError(err);
+	          _this5.handleError(err);
 	        } else {
-	          this.setState({
+	          console.log('loadfile', filepath, data);
+	          _this5.setState({
 	            content: data
 	          });
 	        }
@@ -204,22 +226,26 @@
 	  }, {
 	    key: 'onSaveFile',
 	    value: function onSaveFile(opts) {
+	      var _this6 = this;
+	
 	      fs.outputFile(this.resolveFile(opts.filename), opts.content, function (err) {
 	        if (err) {
-	          this.handleError(err);
+	          _this6.handleError(err);
 	        } else {
-	          this.updateDirectory(this.resolveDir(this.state.cwd));
+	          _this6.updateDirectory(_this6.resolveDir(_this6.state.cwd));
 	        }
 	      });
 	    }
 	  }, {
 	    key: 'onDeleteFile',
 	    value: function onDeleteFile(filename) {
+	      var _this7 = this;
+	
 	      fs.unlink(this.resolveFile(filename), function (err) {
 	        if (err) {
-	          this.handleError(err);
+	          _this7.handleError(err);
 	        } else {
-	          this.setState({
+	          _this7.setState({
 	            filename: '',
 	            content: ''
 	          });
@@ -229,14 +255,16 @@
 	  }, {
 	    key: 'onUpdateFilename',
 	    value: function onUpdateFilename(filename) {
+	      var _this8 = this;
+	
 	      fs.move(this.resolveFile(this.state.filename), this.resolveFile(filename), function (err) {
 	        if (err) {
-	          this.handleError(err);
+	          _this8.handleError(err);
 	        } else {
-	          this.setState({
+	          _this8.setState({
 	            filename: filename
 	          });
-	          this.updateDirectory(this.state.cwd);
+	          _this8.updateDirectory(_this8.state.cwd);
 	        }
 	      });
 	    }
@@ -859,7 +887,7 @@
 
 /***/ },
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/**
 	 * Copyright (c) 2014, Facebook, Inc.
@@ -1055,7 +1083,7 @@
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 	
@@ -1211,7 +1239,7 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -1427,7 +1455,7 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -1662,7 +1690,7 @@
 
 /***/ },
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -2312,7 +2340,7 @@
 
 /***/ },
 /* 21 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function($){
 	  $.FW   = false;
@@ -2322,7 +2350,7 @@
 
 /***/ },
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 	
@@ -2526,7 +2554,58 @@
 	var O_TRUNC = constants.O_TRUNC || 0;
 	var O_WRONLY = constants.O_WRONLY || 0;
 	
-	window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+	function requestFileSystem(callback, errorCallback) {
+	  chrome.syncFileSystem.requestFileSystem(function (filesystem) {
+	    var err = chrome.runtime.lastError;
+	    if (err) {
+	      if (errorCallback) {
+	        errorCallback(err);
+	      }
+	      return;
+	    }
+	    callback(filesystem);
+	  });
+	}
+	
+	function flagToString(flag) {
+	  // Only mess with strings
+	  if (util.isString(flag)) {
+	    return flag;
+	  }
+	
+	  switch (flag) {
+	    case O_RDONLY:
+	      return 'r';
+	    case O_RDONLY | O_SYNC:
+	      return 'sr';
+	    case O_RDWR:
+	      return 'r+';
+	    case O_RDWR | O_SYNC:
+	      return 'sr+';
+	
+	    case O_TRUNC | O_CREAT | O_WRONLY:
+	      return 'w';
+	    case O_TRUNC | O_CREAT | O_WRONLY | O_EXCL:
+	      return 'xw';
+	
+	    case O_TRUNC | O_CREAT | O_RDWR:
+	      return 'w+';
+	    case O_TRUNC | O_CREAT | O_RDWR | O_EXCL:
+	      return 'xw+';
+	
+	    case O_APPEND | O_CREAT | O_WRONLY:
+	      return 'a';
+	    case O_APPEND | O_CREAT | O_WRONLY | O_EXCL:
+	      return 'xa';
+	
+	    case O_APPEND | O_CREAT | O_RDWR:
+	      return 'a+';
+	    case O_APPEND | O_CREAT | O_RDWR | O_EXCL:
+	      return 'xa+';
+	  }
+	
+	  throw new Error('Unknown file open flag: ' + flag);
+	}
 	
 	function allocNewPool(poolSize) {
 	  pool = new Buffer(poolSize);
@@ -2547,6 +2626,22 @@
 	  return true;
 	}
 	
+	function rethrow() {
+	  // Only enable in debug mode. A backtrace uses ~1000 bytes of heap space and
+	  // is fairly slow to generate.
+	  if (DEBUG) {
+	    // eslint-disable-line
+	    var backtrace = new Error();
+	    return function (err) {
+	      if (err) {
+	        backtrace.stack = err.name + ': ' + err.message + backtrace.stack.substr(backtrace.name.length);
+	        err = backtrace;
+	        throw err;
+	      }
+	    };
+	  }
+	}
+	
 	function maybeCallback(cb) {
 	  return util.isFunction(cb) ? cb : rethrow();
 	}
@@ -2563,22 +2658,6 @@
 	  return function () {
 	    return cb.apply(null, arguments);
 	  };
-	}
-	
-	function rethrow() {
-	  // Only enable in debug mode. A backtrace uses ~1000 bytes of heap space and
-	  // is fairly slow to generate.
-	  if (DEBUG) {
-	    // eslint-disable-line
-	    var backtrace = new Error();
-	    return function (err) {
-	      if (err) {
-	        backtrace.stack = err.name + ': ' + err.message + backtrace.stack.substr(backtrace.name.length);
-	        err = backtrace;
-	        throw err;
-	      }
-	    };
-	  }
 	}
 	
 	function resolve(path) {
@@ -2627,7 +2706,9 @@
 	exports.chown = function (path, uid, gid, callback) {
 	  resolve(path);
 	  callback = makeCallback(callback);
-	  if (!nullCheck(path, callback)) return;
+	  if (!nullCheck(path, callback)) {
+	    return;
+	  }
 	
 	  this.exists(path, function (exists) {
 	    if (exists) {
@@ -2645,7 +2726,9 @@
 	exports.chmod = function (path, mode, callback) {
 	  resolve(path);
 	  callback = makeCallback(callback);
-	  if (!nullCheck(path, callback)) return;
+	  if (!nullCheck(path, callback)) {
+	    return;
+	  }
 	
 	  this.exists(path, function (exists) {
 	    if (exists) {
@@ -2662,8 +2745,8 @@
 	
 	exports.exists = function (path, callback) {
 	  resolve(path);
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
-	    cfs.root.getFile(path, {}, function (fileEntry) {
+	  requestFileSystem(function (cfs) {
+	    cfs.root.getFile(path, {}, function () {
 	      callback(true);
 	    }, function () {
 	      callback(false);
@@ -2675,12 +2758,16 @@
 	
 	exports.mkdir = function (path, mode, callback) {
 	  resolve(path);
-	  if (util.isFunction(mode)) callback = mode;
+	  if (util.isFunction(mode)) {
+	    callback = mode;
+	  }
 	  callback = makeCallback(callback);
-	  if (!nullCheck(path, callback)) return;
+	  if (!nullCheck(path, callback)) {
+	    return;
+	  }
 	
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
-	    cfs.root.getDirectory(path, { create: true }, function (dirEntry) {
+	  requestFileSystem(function (cfs) {
+	    cfs.root.getDirectory(path, { create: true }, function () {
 	      callback();
 	    }, callback);
 	  }, callback);
@@ -2689,9 +2776,11 @@
 	exports.rmdir = function (path, callback) {
 	  resolve(path);
 	  callback = maybeCallback(callback);
-	  if (!nullCheck(path, callback)) return;
+	  if (!nullCheck(path, callback)) {
+	    return;
+	  }
 	
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    cfs.root.getDirectory(path, {}, function (dirEntry) {
 	      dirEntry.remove(function () {
 	        callback();
@@ -2702,7 +2791,7 @@
 	
 	exports.readdir = function (path, callback) {
 	  resolve(path);
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    cfs.root.getDirectory(path, {}, function (dirEntry) {
 	      var dirReader = dirEntry.createReader();
 	      dirReader.readEntries(function (entries) {
@@ -2735,7 +2824,7 @@
 	    toDirectory = '/';
 	  }
 	
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    cfs.root.getFile(oldPath, {}, function (fileEntry) {
 	      fileEntry.onerror = callback;
 	      cfs.root.getDirectory(toDirectory, {}, function (dirEntry) {
@@ -2773,7 +2862,9 @@
 	
 	  callback = maybeCallback(callback);
 	  this.open(path, 'r+', function (er, fd) {
-	    if (er) return callback(er);
+	    if (er) {
+	      return callback(er);
+	    }
 	    fd.onwriteend = callback;
 	    fd.truncate(len);
 	  });
@@ -2781,7 +2872,7 @@
 	
 	exports.stat = function (path, callback) {
 	  path = resolve(path);
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    var opts = {};
 	    cfs.root.getFile(path, opts, function (fileEntry) {
 	      fileEntry.file(function (file) {
@@ -2821,7 +2912,7 @@
 	      });
 	    }, function (err) {
 	      if (err.name === 'TypeMismatchError') {
-	        cfs.root.getDirectory(path, opts, function (dirEntry) {
+	        cfs.root.getDirectory(path, opts, function () {
 	          var statval = { dev: 0,
 	            mode: 33206,
 	            nlink: 0,
@@ -2873,8 +2964,7 @@
 	  var callback = maybeCallback(arguments[arguments.length - 1]);
 	
 	  if (util.isFunction(options) || !options) {
-	    options = { encoding: 'utf8', mode: 438, flag: 'w' } /*=0666*/
-	    ;
+	    options = { encoding: 'utf8', mode: 438, flag: 'w' }; /*=0666*/
 	  } else if (util.isString(options)) {
 	    options = { encoding: options, mode: 438, flag: 'w' };
 	  } else if (!util.isObject(options)) {
@@ -2891,8 +2981,10 @@
 	  callback = makeCallback(arguments[arguments.length - 1]);
 	  mode = modeNum(mode, 438 /*=0666*/);
 	
-	  if (!nullCheck(path, callback)) return;
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  if (!nullCheck(path, callback)) {
+	    return;
+	  }
+	  requestFileSystem(function (cfs) {
 	    var opts = {};
 	    if (flags.indexOf('w') > -1) {
 	      opts = { create: true };
@@ -2937,21 +3029,22 @@
 	    buffer = new Buffer(length);
 	    offset = 0;
 	
-	    callback = function (err, bytesRead, data) {
-	      if (!cb) return;
+	    callback = function (err, bytesRead, dat) {
+	      if (!cb) {
+	        return;
+	      }
 	      var str = '';
 	      if (fd.type === 'text/plain') {
-	        str = data;
+	        str = dat;
 	      } else {
-	        str = bytesRead > 0 ? buffer.toString(encoding, 0, bytesRead) : '' // eslint-disable-line
-	        ;
+	        str = bytesRead > 0 ? buffer.toString(encoding, 0, bytesRead) : ''; // eslint-disable-line
 	      }
 	      cb(err, str, bytesRead);
 	    };
 	  }
 	  fd.onerror = callback;
 	  var data = fd.slice(offset, length);
-	  var fileReader = new FileReader(); // eslint-disable-line
+	  var fileReader = new FileReader();
 	  fileReader.onload = function (evt) {
 	    var result;
 	    if (util.isBuffer(buffer) && typeof this.result === 'string') {
@@ -2987,13 +3080,13 @@
 	
 	  var encoding = options.encoding;
 	  assertEncoding(encoding);
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    var opts = {};
 	    cfs.root.getFile(path, opts, function (fileEntry) {
 	      fileEntry.file(function (file) {
 	        fileEntry.onerror = callback;
 	        var fileReader = new FileReader(); // eslint-disable-line
-	        fileReader.onload = function (evt) {
+	        fileReader.onload = function () {
 	          window.setTimeout(callback, 0, null, this.result);
 	        };
 	        fileReader.onerror = function (evt) {
@@ -3068,7 +3161,7 @@
 	
 	exports.unlink = function (fd, callback) {
 	  var path = resolve(fd);
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    cfs.root.getFile(path, {}, function (fileEntry) {
 	      fileEntry.remove(callback);
 	    });
@@ -3089,7 +3182,7 @@
 	  assertEncoding(options.encoding);
 	
 	  var flag = options.flag || 'w'; // eslint-disable-line
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    var opts = {};
 	    if (flag === 'w') {
 	      opts = { create: true };
@@ -3135,7 +3228,7 @@
 	
 	  var flag = options.flag || 'a'; // eslint-disable-line
 	
-	  window.requestFileSystem(window.PERSISTENT, FILESYSTEM_DEFAULT_SIZE, function (cfs) {
+	  requestFileSystem(function (cfs) {
 	    var opts = {};
 	    if (flag === 'a') {
 	      opts = { create: true };
@@ -3171,13 +3264,6 @@
 	    cb(null, progressinfo);
 	  };
 	};
-	
-	exports.createReadStream = function (path, options) {
-	  return new ReadStream(path, options);
-	};
-	
-	util.inherits(ReadStream, Readable);
-	exports.ReadStream = ReadStream;
 	
 	function ReadStream(path, options) {
 	  if (!(this instanceof ReadStream)) {
@@ -3226,6 +3312,13 @@
 	    }
 	  });
 	}
+	
+	exports.createReadStream = function (path, options) {
+	  return new ReadStream(path, options);
+	};
+	
+	util.inherits(ReadStream, Readable);
+	exports.ReadStream = ReadStream;
 	
 	exports.FileReadStream = exports.ReadStream; // support the legacy name
 	
@@ -3283,13 +3376,6 @@
 	  }
 	  // the actual read.
 	  var self = this;
-	  exports.read(this.fd, pool, pool.used, toRead, this.pos, onread);
-	
-	  // move the pool positions, and internal position for reading.
-	  if (!util.isUndefined(this.pos)) {
-	    this.pos += toRead;
-	  }
-	  pool.used += toRead;
 	
 	  function onread(er, bytesRead) {
 	    if (er) {
@@ -3305,6 +3391,13 @@
 	      self.push(b);
 	    }
 	  }
+	  exports.read(this.fd, pool, pool.used, toRead, this.pos, onread);
+	
+	  // move the pool positions, and internal position for reading.
+	  if (!util.isUndefined(this.pos)) {
+	    this.pos += toRead;
+	  }
+	  pool.used += toRead;
 	};
 	
 	ReadStream.prototype.destroy = function () {
@@ -3331,8 +3424,6 @@
 	    }
 	    return process.nextTick(this.emit.bind(this, 'close'));
 	  }
-	  this.closed = true;
-	  close();
 	
 	  function close(fd) {
 	    exports.close(fd || self.fd, function (er) {
@@ -3344,14 +3435,11 @@
 	    });
 	    self.fd = null;
 	  }
+	
+	  this.closed = true;
+	  close();
 	};
 	
-	exports.createWriteStream = function (path, options) {
-	  return new WriteStream(path, options);
-	};
-	
-	util.inherits(WriteStream, Writable);
-	exports.WriteStream = WriteStream;
 	function WriteStream(path, options) {
 	  if (!(this instanceof WriteStream)) {
 	    return new WriteStream(path, options);
@@ -3373,7 +3461,7 @@
 	
 	  if (!util.isUndefined(this.start)) {
 	    if (!util.isNumber(this.start)) {
-	      throw TypeError('start must be a Number');
+	      throw new TypeError('start must be a Number');
 	    }
 	    if (this.start < 0) {
 	      throw new Error('start must be >= zero');
@@ -3388,6 +3476,13 @@
 	  // dispose on finish.
 	  this.once('finish', this.close);
 	}
+	
+	util.inherits(WriteStream, Writable);
+	exports.WriteStream = WriteStream;
+	
+	exports.createWriteStream = function (path, options) {
+	  return new WriteStream(path, options);
+	};
 	
 	exports.FileWriteStream = exports.WriteStream; // support the legacy name
 	
@@ -3433,51 +3528,11 @@
 	
 	// There is no shutdown() for files.
 	WriteStream.prototype.destroySoon = WriteStream.prototype.end;
-	
-	function flagToString(flag) {
-	  // Only mess with strings
-	  if (util.isString(flag)) {
-	    return flag;
-	  }
-	
-	  switch (flag) {
-	    case O_RDONLY:
-	      return 'r';
-	    case O_RDONLY | O_SYNC:
-	      return 'sr';
-	    case O_RDWR:
-	      return 'r+';
-	    case O_RDWR | O_SYNC:
-	      return 'sr+';
-	
-	    case O_TRUNC | O_CREAT | O_WRONLY:
-	      return 'w';
-	    case O_TRUNC | O_CREAT | O_WRONLY | O_EXCL:
-	      return 'xw';
-	
-	    case O_TRUNC | O_CREAT | O_RDWR:
-	      return 'w+';
-	    case O_TRUNC | O_CREAT | O_RDWR | O_EXCL:
-	      return 'xw+';
-	
-	    case O_APPEND | O_CREAT | O_WRONLY:
-	      return 'a';
-	    case O_APPEND | O_CREAT | O_WRONLY | O_EXCL:
-	      return 'xa';
-	
-	    case O_APPEND | O_CREAT | O_RDWR:
-	      return 'a+';
-	    case O_APPEND | O_CREAT | O_RDWR | O_EXCL:
-	      return 'xa+';
-	  }
-	
-	  throw new Error('Unknown file open flag: ' + flag);
-	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ },
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	// shim for using process in browser
 	
@@ -4166,7 +4221,7 @@
 
 /***/ },
 /* 28 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
 	  return arg && typeof arg === 'object'
@@ -4177,7 +4232,7 @@
 
 /***/ },
 /* 29 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
@@ -5757,7 +5812,7 @@
 
 /***/ },
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 	  var e, m
@@ -5847,7 +5902,7 @@
 
 /***/ },
 /* 33 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	
 	/**
@@ -6019,7 +6074,7 @@
 
 /***/ },
 /* 35 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
@@ -6326,7 +6381,7 @@
 
 /***/ },
 /* 36 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
@@ -6577,7 +6632,7 @@
 
 /***/ },
 /* 40 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
@@ -7564,7 +7619,7 @@
 
 /***/ },
 /* 42 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
 	  return Object.prototype.toString.call(arr) == '[object Array]';
@@ -7573,7 +7628,7 @@
 
 /***/ },
 /* 43 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/* (ignored) */
 
@@ -8585,7 +8640,7 @@
 
 /***/ },
 /* 52 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = {
 		"O_RDONLY": 0,
@@ -10821,7 +10876,7 @@
 
 /***/ },
 /* 62 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
 	  return arg && typeof arg === 'object'
@@ -10832,7 +10887,7 @@
 
 /***/ },
 /* 63 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
@@ -12678,7 +12733,7 @@
 
 /***/ },
 /* 67 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function (xs, fn) {
 	    var res = [];
@@ -12697,7 +12752,7 @@
 
 /***/ },
 /* 68 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = balanced;
 	function balanced(a, b, str) {
@@ -12741,7 +12796,7 @@
 
 /***/ },
 /* 69 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
@@ -13529,7 +13584,7 @@
 
 /***/ },
 /* 73 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	// Returns a wrapper function that returns a wrapped callback
 	// The wrapper function should do some stuff, and return a
@@ -13595,7 +13650,7 @@
 
 /***/ },
 /* 75 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	// Returns a wrapper function that returns a wrapped callback
 	// The wrapper function should do some stuff, and return a

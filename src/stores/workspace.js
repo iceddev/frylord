@@ -39,6 +39,7 @@ class WorkspaceStore {
     this.setState({
       error: err
     });
+    throw new Error(err.message);
   }
 
   resolveDir(dir){
@@ -50,7 +51,8 @@ class WorkspaceStore {
   }
 
   updateProjectList(){
-    fs.readdir(this.state.root, function(err, folders){
+    fs.readdir(this.state.root, (err, folders) => {
+      console.log('updatefolders', err, folders);
       if(err){
         this.handleError(err);
       }else{
@@ -62,7 +64,8 @@ class WorkspaceStore {
   }
 
   updateDirectory(dirpath){
-    fs.readdir(this.resolveDir(dirpath), function(err, files){
+    fs.readdir(this.resolveDir(dirpath), (err, files) => {
+      console.log('updatedir', err, files);
       if(err){
         this.handleError(err);
       }else{
@@ -75,7 +78,7 @@ class WorkspaceStore {
 
   onChangeDirectory(dir){
     var dirpath = this.resolveDir(dir);
-    fs.ensureDir(dirpath, function(err){
+    fs.ensureDir(dirpath, (err) => {
       if(err){
         this.handleError(err);
       }else{
@@ -90,7 +93,7 @@ class WorkspaceStore {
   }
 
   onDeleteDirectory(dirname){
-    fs.remove(this.resolveDir(dirname), function(err){
+    fs.remove(this.resolveDir(dirname), (err) => {
       if(err){
         this.handleError(err);
       }else{
@@ -104,10 +107,11 @@ class WorkspaceStore {
   }
 
   onLoadFile(filepath){
-    fs.readFile(this.resolveFile(filepath), function(err, data){
+    fs.readFile(this.resolveFile(filepath), (err, data) => {
       if(err){
         this.handleError(err);
       }else{
+        console.log('loadfile', filepath, data);
         this.setState({
           content: data
         });
@@ -116,7 +120,7 @@ class WorkspaceStore {
   }
 
   onSaveFile(opts){
-    fs.outputFile(this.resolveFile(opts.filename), opts.content, function(err){
+    fs.outputFile(this.resolveFile(opts.filename), opts.content, (err) => {
       if(err){
         this.handleError(err);
       }else{
@@ -126,7 +130,7 @@ class WorkspaceStore {
   }
 
   onDeleteFile(filename){
-    fs.unlink(this.resolveFile(filename), function(err){
+    fs.unlink(this.resolveFile(filename), (err) => {
       if(err){
         this.handleError(err);
       }else{
@@ -139,7 +143,7 @@ class WorkspaceStore {
   }
 
   onUpdateFilename(filename){
-    fs.move(this.resolveFile(this.state.filename), this.resolveFile(filename), function(err){
+    fs.move(this.resolveFile(this.state.filename), this.resolveFile(filename), (err) => {
       if(err){
         this.handleError(err);
       }else{

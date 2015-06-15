@@ -29,3 +29,5 @@ node_modules
 
 # generated files
 .tmp
+
+bundle.js*
