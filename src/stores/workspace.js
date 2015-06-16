@@ -6,6 +6,7 @@ const _ = require('lodash');
 const fs = require('fs-extra');
 
 const alt = require('../alt');
+const statuses = require('./statuses');
 const { updateFilename, updateContent } = require('../actions/current');
 const { loadFile, saveFile, deleteFile } = require('../actions/file');
 const { changeDirectory, deleteDirectory } = require('../actions/directory');
@@ -24,6 +25,8 @@ class WorkspaceStore {
       onUpdateFilename: updateFilename,
       onUpdateContent: updateContent
     });
+
+    this.statuses = statuses;
 
     this.state = {
       status: '',
