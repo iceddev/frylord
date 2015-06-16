@@ -124,7 +124,7 @@ class WorkspaceStore {
       if(err){
         cb(err);
       } else {
-        cb();
+        cb(null, {});
       }
     });
   }
