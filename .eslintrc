@@ -1,4 +1,7 @@
 {
+  "ecmaFeatures": {
+    "jsx": true
+  },
   "rules": {
     "semi": [2, "always"],
     "quotes": [2, "single"],
@@ -6,8 +9,8 @@
     "no-underscore-dangle": 0
   },
   "env": {
+    "es6": true,
     "browser": true,
-    "node": true,
-    "es6": true
+    "node": true
   }
 }

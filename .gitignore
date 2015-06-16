@@ -30,4 +30,10 @@ node_modules
 # generated files
 .tmp
 
+# Built files
 bundle.js*
+/index.js
+/alt.js
+/statuses.js
+/stores/
+/actions/
