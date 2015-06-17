@@ -110,7 +110,7 @@ class WorkspaceStore {
   }
 
   _readFile(filename, cb){
-    fs.readFile(this.resolveFile(filename), (err, content) => {
+    fs.readFile(this.resolveFile(filename), { encoding: 'utf8' }, (err, content) => {
       if(err){
         cb(err);
       } else {
