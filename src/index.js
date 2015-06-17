@@ -9,10 +9,6 @@ function frylord(app, opts, cb){
 
   const namespace = opts.namespace || 'workspace';
 
-  if(opts.statuses){
-    workspaceStore.statuses = opts.statuses;
-  }
-
   app.expose(namespace, workspaceStore);
   app.expose('file', fileActions);
   app.expose('current', currentActions);
