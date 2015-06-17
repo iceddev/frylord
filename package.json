@@ -1,6 +1,6 @@
 {
   "name": "frylord",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Irken plugin exposing workspaces",
   "main": "index.js",
   "scripts": {
