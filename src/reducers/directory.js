@@ -1,10 +1,11 @@
 'use strict';
 
-function directory(state = {}, { type, payload }){
+const initial = [];
+
+function directory(state = initial, { type, payload }){
   switch(type){
-    case '':
-      // handle payload
-      return state;
+    case 'CHANGE_DIRECTORY':
+      return payload.listing;
     default:
       return state;
   }

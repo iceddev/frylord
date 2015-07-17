@@ -1,17 +1,16 @@
 'use strict';
 
 const initial = {
-  filename: ''
+  filename: '',
+  content: ''
 };
 
-function file(state = initial, { type, payload = {} }){
-  const { filename, content } = payload;
-
+function file(state = initial, { type, payload }){
   switch(type){
     case 'CHANGE_FILE':
       return {
-        filename,
-        content
+        filename: payload.filename,
+        content: payload.content
       };
     default:
       return state;
