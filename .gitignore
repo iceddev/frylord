@@ -28,4 +28,10 @@ node_modules
 .lock-wscript
 
 # generated files
-.tmp
+/.tmp
+/actions
+/reducers
+/example/bundle.js
+/index.js
+/create-store.js
+/filer.js
