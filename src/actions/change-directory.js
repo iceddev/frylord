@@ -4,17 +4,29 @@ const pipeline = require('when/pipeline');
 
 const listDirectory = require('./list-directory');
 
-function createAction(payload){
+const filer = require('../filer');
+
+const opts = {
+  persistent: true,
+  size: 1024 * 1024
+};
+
+function createAction({ listing }){
   return {
     type: 'CHANGE_DIRECTORY',
-    payload
+    payload: {
+      cwd: filer.cwd.fullPath,
+      listing
+    }
   };
 }
 
 function changeDirectory(dirname){
   const seq = [
-    () => listDirectory(dirname),
-    ({ payload }) => ({ cwd: dirname, listing: payload.listing })
+    () => filer.init(opts),
+    () => filer.cd(dirname),
+    () => listDirectory('.'),
+    ({ payload }) => ({ listing: payload.listing })
   ];
 
   return pipeline(seq).then(createAction);

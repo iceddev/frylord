@@ -4,6 +4,8 @@ const path = require('path');
 
 const pipeline = require('when/pipeline');
 
+const listDirectory = require('./list-directory');
+
 const filer = require('../filer');
 
 const opts = {
@@ -11,10 +13,10 @@ const opts = {
   size: 1024 * 1024
 };
 
-function createAction(){
+function createAction(payload){
   return {
     type: 'WRITE_FILE',
-    payload: {}
+    payload
   };
 }
 
@@ -24,7 +26,9 @@ function writeFile(filename, text){
   const seq = [
     () => filer.init(opts),
     () => filer.mkdir(dirname, false),
-    () => filer.write(filename, { data: text, type: 'text/plain' })
+    () => filer.write(filename, { data: text, type: 'text/plain' }),
+    () => listDirectory('.'),
+    ({ payload }) => ({ listing: payload.listing })
   ];
 
   return pipeline(seq).then(createAction);
