@@ -17,11 +17,19 @@ function frylord(app, opts, cb){
   //   space = new Workspace();
   // }
 
+  function getState(){
+    return store.getState();
+  }
+
+  function subscribe(...args){
+    return store.subscribe(...args);
+  }
+
   const api = _.mapValues(actions, (method) => {
     return (...args) => store.dispatch(method(...args));
   });
 
-  app.expose(namespace, _.assign({ store }, api));
+  app.expose(namespace, _.assign({ getState, subscribe }, api));
 
   cb();
 }

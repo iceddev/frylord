@@ -29,9 +29,12 @@ node_modules
 
 # generated files
 /.tmp
+/utils
 /actions
+/methods
 /reducers
 /example/bundle.js
 /index.js
 /create-store.js
 /filer.js
+/constants.js

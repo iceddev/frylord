@@ -1,7 +1,5 @@
 'use strict';
 
-const path = require('path');
-
 const pipeline = require('when/pipeline');
 
 const listDirectory = require('./list-directory');
@@ -15,18 +13,15 @@ const opts = {
 
 function createAction(payload){
   return {
-    type: 'WRITE_FILE',
+    type: 'DELETE_FILE',
     payload
   };
 }
 
-function writeFile(filename, text){
-  const dirname = path.dirname(filename);
-
+function deleteFile(filename){
   const seq = [
     () => filer.init(opts),
-    () => filer.mkdir(dirname, false),
-    () => filer.write(filename, { data: text, type: 'text/plain' }),
+    () => filer.rm(filename),
     () => listDirectory('.'),
     ({ payload }) => ({ listing: payload.listing })
   ];
@@ -34,4 +29,4 @@ function writeFile(filename, text){
   return pipeline(seq).then(createAction);
 }
 
-module.exports = writeFile;
+module.exports = deleteFile;

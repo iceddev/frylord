@@ -1,5 +1,9 @@
 'use strict';
 
+const {
+  CHANGE_FILE
+} = require('../constants');
+
 const initial = {
   filename: '',
   content: ''
@@ -7,7 +11,7 @@ const initial = {
 
 function file(state = initial, { type, payload }){
   switch(type){
-    case 'CHANGE_FILE':
+    case CHANGE_FILE:
       return {
         filename: payload.filename,
         content: payload.content

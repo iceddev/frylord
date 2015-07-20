@@ -1,10 +1,10 @@
 'use strict';
 
 const actions = {
-  readFile: require('./read-file'),
-  writeFile: require('./write-file'),
+  saveFile: require('./save-file'),
+  deleteFile: require('./delete-file'),
   changeFile: require('./change-file'),
-  listDirectory: require('./list-directory'),
+  deleteDirectory: require('./delete-directory'),
   changeDirectory: require('./change-directory')
 };
 

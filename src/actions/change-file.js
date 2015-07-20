@@ -1,23 +1,22 @@
 'use strict';
 
-const pipeline = require('when/pipeline');
+const when = require('when');
 
-const readFile = require('./read-file');
+const { CHANGE_FILE } = require('../constants');
+const { readFile } = require('../methods');
 
-function createAction(payload){
+function createAction(filename, content){
   return {
-    type: 'CHANGE_FILE',
-    payload
+    type: CHANGE_FILE,
+    payload: {
+      filename,
+      content
+    }
   };
 }
 
 function changeFile(filename){
-  const seq = [
-    () => readFile(filename),
-    ({ payload }) => ({ filename, content: payload.content })
-  ];
-
-  return pipeline(seq).then(createAction);
+  return when.try(createAction, filename, readFile(filename));
 }
 
 module.exports = changeFile;

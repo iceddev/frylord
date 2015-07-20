@@ -3,6 +3,7 @@
 const reducers = {
   cwd: require('./cwd'),
   file: require('./file'),
+  projects: require('./projects'),
   directory: require('./directory')
 };
 
