@@ -1,32 +1,36 @@
 'use strict';
 
+const keys = require('when/keys');
 const pipeline = require('when/pipeline');
 
-const listDirectory = require('./list-directory');
+const { DELETE_DIRECTORY } = require('../constants');
+const { removeDir, listCwd, listProjects } = require('../methods');
 
-const filer = require('../filer');
-
-const opts = {
-  persistent: true,
-  size: 1024 * 1024
-};
-
-function createAction(payload){
+function createAction({ listing, projects }){
   return {
-    type: 'DELETE_DIRECTORY',
-    payload
+    type: DELETE_DIRECTORY,
+    payload: {
+      listing,
+      projects
+    }
   };
 }
 
-function deleteDirectory(dirpath){
-  const seq = [
-    () => filer.init(opts),
-    () => filer.rm(dirpath),
-    () => listDirectory('/'),
-    ({ payload }) => ({ projects: payload.listing })
-  ];
+function getData(){
+  return keys.all({
+    listing: listCwd(),
+    projects: listProjects()
+  });
+}
 
-  return pipeline(seq).then(createAction);
+const seq = [
+  removeDir,
+  getData,
+  createAction
+];
+
+function deleteDirectory(dirpath){
+  return pipeline(seq, dirpath);
 }
 
 module.exports = deleteDirectory;

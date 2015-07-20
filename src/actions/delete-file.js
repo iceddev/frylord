@@ -2,31 +2,26 @@
 
 const pipeline = require('when/pipeline');
 
-const listDirectory = require('./list-directory');
+const { DELETE_FILE } = require('../constants');
+const { removeFile, listCwd } = require('../methods');
 
-const filer = require('../filer');
-
-const opts = {
-  persistent: true,
-  size: 1024 * 1024
-};
-
-function createAction(payload){
+function createAction(listing){
   return {
-    type: 'DELETE_FILE',
-    payload
+    type: DELETE_FILE,
+    payload: {
+      listing
+    }
   };
 }
 
-function deleteFile(filename){
-  const seq = [
-    () => filer.init(opts),
-    () => filer.rm(filename),
-    () => listDirectory('.'),
-    ({ payload }) => ({ listing: payload.listing })
-  ];
+const seq = [
+  removeFile,
+  listCwd,
+  createAction
+];
 
-  return pipeline(seq).then(createAction);
+function deleteFile(filepath){
+  return pipeline(seq, filepath);
 }
 
 module.exports = deleteFile;

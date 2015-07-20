@@ -21,13 +21,13 @@ function write(filepath, text){
   return filer.write(filepath, { data: text, type: 'text/plain' });
 }
 
-function writeFile(filepath, text){
-  const seq = [
-    init,
-    mkdir,
-    write
-  ];
+const seq = [
+  init,
+  mkdir,
+  write
+];
 
+function writeFile(filepath, text){
   return sequence(seq, filepath, text);
 }
 
