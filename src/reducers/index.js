@@ -2,7 +2,8 @@
 
 const reducers = {
   cwd: require('./cwd'),
-  file: require('./file'),
+  filename: require('./filename'),
+  content: require('./content'),
   projects: require('./projects'),
   directory: require('./directory')
 };
