@@ -38,3 +38,4 @@ node_modules
 /create-store.js
 /filer.js
 /constants.js
+/status-constants.js

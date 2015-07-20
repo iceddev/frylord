@@ -5,6 +5,10 @@ const _ = require('lodash');
 const actions = require('./actions');
 const createStore = require('./create-store');
 
+// Easily export constants
+const ACTION_CONSTANTS = require('./constants');
+const STATUS_CONSTANTS = require('./status-constants');
+
 function frylord(app, opts, cb){
 
   const namespace = opts.namespace || 'workspace';
@@ -29,7 +33,14 @@ function frylord(app, opts, cb){
     return (...args) => store.dispatch(method(...args));
   });
 
-  app.expose(namespace, _.assign({ getState, subscribe }, api));
+  const exported = _.assign({
+    getState,
+    subscribe,
+    STATUS_CONSTANTS,
+    ACTION_CONSTANTS
+  }, api);
+
+  app.expose(namespace, exported);
 
   cb();
 }
