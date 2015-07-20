@@ -19,8 +19,7 @@ function notification(state = initial, { type, payload }){
     case CHANGE_FILE:
     case DELETE_DIRECTORY:
     case CHANGE_DIRECTORY:
-      console.log(payload);
-      return payload.notification || '';
+      return payload.notification || initial;
     default:
       // Returning initial here to reset a notification on non-explicitlly handled actions
       return initial;
