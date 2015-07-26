@@ -33,6 +33,7 @@ node_modules
 /actions
 /methods
 /reducers
+/middleware
 /example/bundle.js
 /index.js
 /create-store.js

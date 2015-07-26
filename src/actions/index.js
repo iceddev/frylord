@@ -7,7 +7,8 @@ const actions = {
   deleteFile: require('./delete-file'),
   changeFile: require('./change-file'),
   deleteDirectory: require('./delete-directory'),
-  changeDirectory: require('./change-directory')
+  changeDirectory: require('./change-directory'),
+  refreshDirectory: require('./refresh-directory')
 };
 
 module.exports = actions;

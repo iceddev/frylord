@@ -17,20 +17,23 @@ function mapEntries(entry){
   if(entry.isFile){
     return {
       type: 'file',
-      name: entry.name
+      name: entry.name,
+      fullPath: entry.fullPath
     };
   }
 
   if(entry.isDirectory){
     return {
       type: 'directory',
-      name: entry.name
+      name: entry.name,
+      fullPath: entry.fullPath
     };
   }
 
   return {
     type: 'unknown',
-    name: entry.name
+    name: entry.name,
+    fullPath: entry.fullPath
   };
 }
 
