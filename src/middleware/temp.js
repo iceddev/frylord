@@ -1,91 +1,67 @@
 'use strict';
 
-const path = require('path');
-
-const _ = require('lodash');
-const when = require('when');
-
-const { readFile, listCwd } = require('../methods');
-
-const { get, put, del, notFound } = require('../utils/temp');
+const {
+  updateContent,
+  changeFile,
+  saveFile,
+  deleteFile,
+  refreshDir
+} = require('../temp-methods');
 
 const {
+  ERROR,
   UPDATE_CONTENT,
+  SAVE_FILE,
+  DELETE_FILE,
   CHANGE_FILE,
   CHANGE_DIRECTORY,
   REFRESH_DIRECTORY
 } = require('../constants');
 
-function updateTemp(filepath, content){
-  return readFile(filepath)
-    .then(function(fileContents){
-      if(content === fileContents){
-        return del(filepath);
-      } else {
-        return put(filepath, content);
-      }
-    })
-    .otherwise(function(){
-      return put(filepath, content);
-    })
-    .yield({ content });
-}
+const {
+  CHANGE_FILE_FAILURE
+} = require('../status-constants');
 
-function tempMapper(entry){
-  return get(entry.fullPath)
-    .then(() => _.assign({ temp: true }, entry))
-    .catch(notFound, () => _.assign({ temp: false }, entry));
-}
+function handleError(action, state, next){
+  const { status, args } = action.payload;
 
-function listDirTemp(){
-  return when.map(listCwd(), tempMapper)
-    .then((listing) => ({ listing }));
-}
-
-function refreshDirectoryAction({ listing }){
-  return {
-    type: REFRESH_DIRECTORY,
-    payload: {
-      listing
-    }
-  };
-}
-
-function updateAction({ type, payload }, payloadUpdate){
-  return {
-    type,
-    payload: _.assign({}, payload, payloadUpdate)
-  };
+  switch(status){
+    case CHANGE_FILE_FAILURE:
+      const newAction = {
+        type: CHANGE_FILE,
+        payload: {
+          filename: args[0]
+        }
+      };
+      // TODO: handle an error in this too
+      return changeFile(newAction, state, next)
+        .catch(() => next(action));
+    default:
+      return next(action);
+  }
 }
 
 function tempMiddleware({ getState }){
   return (next) => (action) => {
-    const { type, payload } = action;
-    const { cwd, filename } = getState();
-    const filepath = path.join(cwd, filename);
+    const { type } = action;
+    const state = getState();
 
     switch(type){
       case UPDATE_CONTENT:
-        return updateTemp(filepath, payload.content)
-          .fold(updateAction, action)
-          .then(next)
-          .then(listDirTemp)
-          .then(refreshDirectoryAction)
-          .then(next);
+        return updateContent(action, state, next);
       case CHANGE_FILE:
-        return get(path.join(cwd, payload.filename))
-          .then((content) => ({ content }))
-          .fold(updateAction, action)
-          .then(next)
-          .catch(notFound, () => next(action));
+        return changeFile(action, state, next)
+          .catch(() => next(action));
+      case SAVE_FILE:
+        return saveFile(action, state, next);
+      case DELETE_FILE:
+        return deleteFile(action, state, next);
+      // TODO: handle cleaning up temp files in deleted directory
       case CHANGE_DIRECTORY:
-        return listDirTemp()
-          .fold(updateAction, action)
-          .then(next);
       case REFRESH_DIRECTORY:
-        return listDirTemp()
-          .fold(updateAction, action)
-          .then(next);
+        return refreshDir(action, state, next);
+      case ERROR:
+        return handleError(action, state, next);
       default:
         return next(action);
     }

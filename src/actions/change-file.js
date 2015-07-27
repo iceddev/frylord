@@ -25,7 +25,8 @@ function changeFile(filename){
       payload: {
         notification: `Failed to change file to '${filename}'`,
         status: CHANGE_FILE_FAILURE,
-        error: err
+        error: err,
+        args: arguments
       }
     }));
 }

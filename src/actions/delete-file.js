@@ -13,7 +13,8 @@ function createAction({ listing, filename }){
     payload: {
       notification: `'${filename}' deleted successfully`,
       status: DELETE_FILE_SUCCESS,
-      listing
+      listing,
+      filename
     }
   };
 }

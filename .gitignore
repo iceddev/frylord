@@ -34,9 +34,11 @@ node_modules
 /methods
 /reducers
 /middleware
+/temp-methods
 /example/bundle.js
 /index.js
 /create-store.js
 /filer.js
+/level.js
 /constants.js
 /status-constants.js
