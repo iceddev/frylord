@@ -1,99 +1,96 @@
 'use strict';
 
-var fs = require('fs');
+var expect = require('expect');
 
-var lab = exports.lab = require('lab').script();
-var code = require('code');
+describe('Workspace', function(){
 
-lab.experiment.skip('Workspace', function(){
-
-  lab.test('#filename is a cursor for the current filename', function(done){
+  it('#filename is a cursor for the current filename', function(done){
     done();
   });
 
-  lab.test('#filename allows updating current filename through update', function(done){
+  it('#filename allows updating current filename through update', function(done){
     done();
   });
 
-  lab.test('#current is a cursor for current file', function(done){
+  it('#current is a cursor for current file', function(done){
     done();
   });
 
-  lab.test('#current allows updating current data through .update', function(done){
+  it('#current allows updating current data through .update', function(done){
     done();
   });
 
-  lab.test('#cwd is a cursor for the current working directory', function(done){
+  it('#cwd is a cursor for the current working directory', function(done){
     done();
   });
 
-  lab.test('#directory should default to an empty list', function(done){
+  it('#directory should default to an empty list', function(done){
     done();
   });
 
-  lab.test('#projects should default to an empty list', function(done){
+  it('#projects should default to an empty list', function(done){
     done();
   });
 
-  lab.test('#updateContent can be used to update the current cursor', function(done){
-
+  it('#updateContent can be used to update the current cursor', function(done){
+    done();
   });
 
-  lab.test('#saveFile will mkdirp and save a file', function(done){
-
+  it('#saveFile will mkdirp and save a file', function(done){
+    done();
   });
 
-  lab.test('#saveFile also handles cursors', function(done){
-
+  it('#saveFile also handles cursors', function(done){
+    done();
   });
 
-  lab.test('#saveFile does not add the file to the directory listing if cwd === root', function(done){
-
+  it('#saveFile does not add the file to the directory listing if cwd === root', function(done){
+    done();
   });
 
-  lab.test('#saveFile does not add the file to the directory listing twice upon 2nd save', function(done){
-
+  it('#saveFile does not add the file to the directory listing twice upon 2nd save', function(done){
+    done();
   });
 
-  lab.test('#saveFile can take workspace.current', function(done){
-
+  it('#saveFile can take workspace.current', function(done){
+    done();
   });
 
-  lab.test('#loadFile will load a file into current', function(done){
-
+  it('#loadFile will load a file into current', function(done){
+    done();
   });
 
-  lab.test('#loadFile will load a file based on cwd', function(done){
-
+  it('#loadFile will load a file based on cwd', function(done){
+    done();
   });
 
-  lab.test('#changeDir should adjust cwd and add files to directory structure', function(done){
-
+  it('#changeDir should adjust cwd and add files to directory structure', function(done){
+    done();
   });
 
-  lab.test('#changeDir should add projects from the root to the projects cursor', function(done){
-
+  it('#changeDir should add projects from the root to the projects cursor', function(done){
+    done();
   });
 
-  lab.experiment('#deleteFile', function(){
+  describe('#deleteFile', function(){
 
-    lab.test('deletes a file that exists & removes from directory structure', function(done){
-
+    it('deletes a file that exists & removes from directory structure', function(done){
+      done();
     });
 
-    lab.test('accepts a cursor for filepath', function(done){
-
+    it('accepts a cursor for filepath', function(done){
+      done();
     });
   });
 
-  lab.experiment('#deleteDir', function(){
+  describe('#deleteDir', function(){
 
-    lab.test('deletes directory & removes from project structure', function(done){
-
+    it('deletes directory & removes from project structure', function(done){
+      done();
     });
 
-    lab.test('accepts a cursor for path', function(done){
-
+    it('accepts a cursor for path', function(done){
+      done();
     });
   });
 });

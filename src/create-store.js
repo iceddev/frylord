@@ -2,17 +2,18 @@
 
 const { createStore, combineReducers, applyMiddleware } = require('redux');
 const reduxPromise = require('redux-promise');
-const tempMiddleware = require('./middleware/temp');
 
 const reducers = require('./reducers');
 
 const reducer = combineReducers(reducers);
 
-const middleware = [reduxPromise, tempMiddleware];
+const defaultMiddleware = [reduxPromise];
 
-const finalCreateStore = applyMiddleware(...middleware)(createStore);
+function storeCreator(extraMiddleware){
+  const middleware = defaultMiddleware.concat(extraMiddleware);
 
-function storeCreator(){
+  const finalCreateStore = applyMiddleware(...middleware)(createStore);
+
   return finalCreateStore(reducer);
 }
 

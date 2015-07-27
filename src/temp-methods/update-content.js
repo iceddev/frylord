@@ -32,10 +32,7 @@ function updateContents(action, state, next){
   const filepath = path.join(cwd, filename);
 
   return when.try(compareContents, filepath, content, readFile(filepath))
-    .catch((err) => {
-      console.log(err);
-      return updateTempfile(filepath, content);
-    })
+    .catch(() => updateTempfile(filepath, content))
     .yield({ content })
     .fold(updateAction, action)
     .then(next)

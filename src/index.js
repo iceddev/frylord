@@ -4,6 +4,7 @@ const _ = require('lodash');
 
 const actions = require('./actions');
 const createStore = require('./create-store');
+const tempMiddleware = require('./middleware/temp');
 
 // Easily export constants
 const ACTION_CONSTANTS = require('./constants');
@@ -12,14 +13,9 @@ const STATUS_CONSTANTS = require('./status-constants');
 function frylord(app, opts, cb){
 
   const namespace = opts.namespace || 'workspace';
-  const store = createStore();
 
-  // var space;
-  // if(opts.useTempFiles){
-  //   space = new TempWorkspace();
-  // } else {
-  //   space = new Workspace();
-  // }
+  const middleware = (opts.useTempFiles ? tempMiddleware : []);
+  const store = createStore(middleware);
 
   function getState(){
     return store.getState();
