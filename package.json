@@ -4,7 +4,7 @@
   "description": "Irken plugin exposing workspaces",
   "main": "index.js",
   "scripts": {
-    "test": "lab -cvL",
+    "test": "lab -cv",
     "build": "babel ./src/ --out-dir ./",
     "example": "webpack-dev-server",
     "prepublish": "npm run build"
