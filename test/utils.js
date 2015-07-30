@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var expect = require('expect');
+var isFSA = require('flux-standard-action').isFSA;
 
 var notFound = require('../utils/not-found');
 var refreshDirectoryAction = require('../utils/refresh-directory-action');
@@ -10,11 +11,32 @@ var updateAction = require('../utils/update-action');
 
 describe('Util', function(){
 
-  it('#notFound should throw an error with a "notFound" property', function(done){
-    var err = new Error();
-    expect(notFound(err)).toThrow(err.notFound);
-    done();
+  describe('#notFound', function(){
+    var err;
+
+    beforeEach(function(){
+      err = new Error();
+    });
+
+    afterEach(function(){
+      err = null;
+    });
+
+    it('should return true with the presence of "notFound" property', function(done){
+      err.notFound = true;
+      expect(notFound(err)).toBe(true);
+      done();
+    });
+
+    it('should return "false" when the err.notFound is "undefined" or "null"', function(done){
+      expect(notFound(err)).toNotExist('err.notFound is undefined and should be falsy');
+      err.notFound = null;
+      expect(notFound(err)).toNotExist('err.notFound is null and should be falsy');
+      done();
+    });
+
   });
+
 
   describe('#refreshDirectoryAction', function(){
     var ref, action;
@@ -33,8 +55,8 @@ describe('Util', function(){
       action = null;
     });
 
-    it('returns an object', function(done){
-      expect(action).toBeAn('object');
+    it('returns a Flux Standard Action (FSA) object', function(done){
+      expect(isFSA(action)).toBe(true, 'this should conform with Flux Standard Action specification');
       done();
     });
 
@@ -87,9 +109,8 @@ describe('Util', function(){
       update = null;
     });
 
-    it('returns an object with "type" and "payload" properties', function(done){
-      expect(updated.type).toExist();
-      expect(updated.payload).toExist();
+    it('returns a Flux Standard Action (FSA) object', function(done){
+      expect(isFSA(updated)).toBe(true);
       done();
     });
 
