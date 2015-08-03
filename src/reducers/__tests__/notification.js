@@ -3,102 +3,92 @@
 var expect = require('expect');
 
 var notification = require('../notification');
+const {
+  ERROR,
+  SAVE_FILE,
+  DELETE_FILE,
+  CHANGE_FILE,
+  DELETE_DIRECTORY,
+  CHANGE_DIRECTORY
+} = require('../../constants');
 
 describe('#notifcation', function(){
-  var state, type, payload, action;
-
-  beforeEach(function(){
-    state = 'what';
-    type = 'NOT_VALID_TYPE';
-    payload = {
+  const payload = {
       notification: 'some notification'
     };
-    action = {
-      type: type,
-      payload: payload
-    };
-  });
-
-  afterEach(function(){
-    state = type = payload = action = null;
-  });
 
   it('returns an empty string when type is not matched', function(done){
-    expect(notification(state, action)).toBe('');
+    const initial = 'test';
+    const action = { type: undefined, payload: payload};
+    const state = notification(initial, action);
+    expect(state).toEqual('');
     done();
   });
 
   describe('returns action.payload.notification when type matches', function(){
+    const initial = 'test';
+
     it('ERROR', function(done){
-      action.type = 'ERROR';
-      expect(notification(state, action)).toBe(action.payload.notification);
+      const action = { type: ERROR, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
 
     it('SAVE_FILE', function(done){
-      action.type = 'SAVE_FILE';
-      expect(notification(state, action)).toBe(action.payload.notification);
+      const action = { type: SAVE_FILE, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
 
     it('DELETE_FILE', function(done){
-      action.type = 'DELETE_FILE';
-      expect(notification(state, action)).toBe(action.payload.notification);
+      const action = { type: DELETE_FILE, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
 
     it('CHANGE_FILE', function(done){
-      action.type = 'CHANGE_FILE';
-      expect(notification(state, action)).toBe(action.payload.notification);
+      const action = { type: CHANGE_FILE, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
 
     it('DELETE_DIRECTORY', function(done){
-      action.type = 'DELETE_DIRECTORY';
-      expect(notification(state, action)).toBe(action.payload.notification);
+      const action = { type: DELETE_DIRECTORY, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
 
-     it('CHANGE_DIRECTORY', function(done){
-      action.type = 'CHANGE_DIRECTORY';
-      expect(notification(state, action)).toBe(action.payload.notification);
+    it('CHANGE_DIRECTORY', function(done){
+      const action = { type: CHANGE_DIRECTORY, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual(payload.notification);
       done();
     });
   });
 
   describe('returns an empty string if action.payload.notification is', function(){
-    beforeEach(function(){
-      action.type = 'ERROR';
-    });
+    const initial = 'test';
 
     it('undefined', function(done){
-      action.payload.notification = undefined;
-      expect(notification(state, action)).toBe('');
+      const payload = {};
+      const action = { type: CHANGE_DIRECTORY, payload: payload };
+      const state = notification(initial, action);
+      expect(state).toEqual('');
       done();
     });
 
     it('null', function(done){
-      action.payload.notification = null;
-      expect(notification(state, action)).toBe('');
+      const payload = { notification: null };
+      const action = { type: CHANGE_DIRECTORY, payload: payload };
+      const state = notification(initial, action);
+      expect(state).toEqual('');
       done();
     });
-  });
-
-  it.skip('throws an error when action.type is undefined', function(done){
-    action.type = undefined;
-    expect(function(){
-      notification(state, action);
-    }).toThrow(/Type Error: 'type' property of action is undefined/);
-    done();
-  });
-
-  it.skip('throws an error when action.payload is undefined', function(done){
-    action.payload = undefined;
-    action.type = 'ERROR';
-    expect(function(){
-      notification(state, action);
-    }).toThrow(/Type Error: 'payload' property of action is undefined/);
-    done();
   });
 });
 
