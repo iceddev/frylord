@@ -2,7 +2,7 @@
 
 var expect = require('expect');
 
-var notification = require('../reducers/notification');
+var notification = require('../notification');
 
 describe('#notifcation', function(){
   var state, type, payload, action;

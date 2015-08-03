@@ -2,7 +2,7 @@
 
 var expect = require('expect');
 
-var cwd = require('../reducers/cwd');
+var cwd = require('../cwd');
 
 describe('#cwd', function(){
   var state, type, payload, action;

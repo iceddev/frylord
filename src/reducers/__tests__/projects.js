@@ -2,7 +2,7 @@
 
 var expect = require('expect');
 
-var projects = require('../reducers/projects');
+var projects = require('../projects');
 
 describe('#projects', function(){
   var state, type, payload, action;

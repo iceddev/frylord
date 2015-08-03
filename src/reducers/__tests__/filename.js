@@ -2,7 +2,7 @@
 
 var expect = require('expect');
 
-var filename = require('../reducers/filename');
+var filename = require('../filename');
 
 describe('#filename', function(){
   var state, type, payload, action;
