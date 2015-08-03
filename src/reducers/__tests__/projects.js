@@ -1,104 +1,79 @@
 'use strict';
 
-var expect = require('expect');
+const expect = require('expect');
 
-var projects = require('../projects');
+const projects = require('../projects');
+
+const {
+  DELETE_DIRECTORY,
+  CHANGE_DIRECTORY
+} = require('../../constants');
 
 describe('#projects', function(){
-  var state, type, payload, action;
+  const payload = {
+    projects: [
+      'payload1',
+      'payload2'
+    ]
+  };
 
-  beforeEach(function(){
-    state = [
-    'project1',
-    'project2'
-    ];
-
-    type = 'NOT_VALID_TYPE';
-
-    payload = {
-      projects: [
-        'payload1',
-        'payload2'
-      ]
-    };
-
-    action = {
-      type: type,
-      payload: payload
-    };
-  });
-
-  afterEach(function(){
-    state = type = payload = action = null;
-  });
 
   describe('returns an empty array when', function(){
-    it('type does not match and state is undefined', function(done){
-      state = undefined;
-      var res = projects(state, action);
-      expect(res instanceof Array).toBe(true);
-      expect(res).toEqual([]);
+
+    it('type does not match and initial state is undefined', function(done){
+      const initial = undefined;
+      const action = { type: undefined, payload: payload };
+      const state = projects(initial, action);
+      expect(state).toEqual([]);
       done();
     });
 
     describe('type is matched and action.payload.projects is', function(){
-      beforeEach(function(){
-        action.type = 'DELETE_DIRECTORY';
-      });
+
+      const initial = 'test';
 
       it('undefined', function(done){
-        action.payload.projects = undefined;
-        var res = projects(state, action);
-        expect(res instanceof Array).toBe(true);
-        expect(res).toEqual([]);
+        const payload = {};
+        const action = { type: DELETE_DIRECTORY, payload: payload };
+        const state = projects(initial, action);
+        expect(state).toEqual([]);
         done();
       });
 
       it('null', function(done){
-        action.payload.projects = null;
-        var res = projects(state, action);
-        expect(res instanceof Array).toBe(true);
-        expect(res).toEqual([]);
+        const payload = { projects: null };
+        const action = { type: DELETE_DIRECTORY, payload: payload };
+        const state = projects(initial, action);
+        expect(state).toEqual([]);
         done();
       });
     });
   });
 
-  describe('returns action.payload.projects when type is matches', function(){
+  describe('returns action.payload.projects when type matches', function(){
+
+    const initial = 'test';
+
     it('DELETE_DIRECTORY', function(done){
-      action.type = 'DELETE_DIRECTORY';
-      expect(projects(state, action)).toBe(action.payload.projects);
+      const action = { type: DELETE_DIRECTORY, payload: payload };
+      const state = projects(initial, action);
+      expect(state).toEqual(payload.projects);
       done();
     });
 
     it('CHANGE_DIRECTORY', function(done){
-      action.type = 'CHANGE_DIRECTORY';
-      expect(projects(state, action)).toBe(action.payload.projects);
+      const action = { type: CHANGE_DIRECTORY, payload: payload };
+      const state = projects(initial, action);
+      expect(state).toEqual(payload.projects);
       done();
     });
   });
 
-  it('returns state when type is undefined', function(done){
-    action.type = undefined;
-    expect(projects(state, action)).toEqual(state);
+  it('returns initial state when type is undefined', function(done){
+    const initial = 'test';
+    const action = { type: undefined, payload: payload };
+    const state = projects(initial, action);
+    expect(state).toEqual(initial);
     done();
-  });
-
-  describe.skip('throws an error if', function(){
-    it('action.type is undefined', function(done){
-      action.type = undefined;
-      expect(function() {
-        projects(state, action);
-      }).toThrow(/Type Error: action.type is undefined/);
-      done();
-    });
-
-    it('action.payload is undefined', function(done){
-      action.payload = undefined;
-      expect(function() {
-        projects(state, action);
-      }).toThrow(/Type Error: action.payload is undefined/);
-      done();
-    });
   });
 });

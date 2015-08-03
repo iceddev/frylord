@@ -17,13 +17,24 @@ describe('#notifcation', function(){
       notification: 'some notification'
     };
 
-  it('returns an empty string when type is not matched', function(done){
-    const initial = 'test';
-    const action = { type: undefined, payload: payload};
-    const state = notification(initial, action);
-    expect(state).toEqual('');
-    done();
+  describe('returns an empty string', function(){
+    it('when type is not matched and initial state is undefined', function(done){
+      const initial = undefined;
+      const action = { type: undefined, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual('');
+      done();
+    });
+
+    it('when type is not matched', function(done){
+      const initial = 'test';
+      const action = { type: undefined, payload: payload};
+      const state = notification(initial, action);
+      expect(state).toEqual('');
+      done();
+    });
   });
+
 
   describe('returns action.payload.notification when type matches', function(){
     const initial = 'test';
