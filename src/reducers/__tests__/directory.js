@@ -2,7 +2,7 @@
 
 var expect = require('expect');
 
-var directory = require('../reducers/directory');
+var directory = require('../directory');
 
 describe('#directory', function(){
   var state, type, payload, action;
