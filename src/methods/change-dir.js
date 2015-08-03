@@ -9,6 +9,10 @@ function init(dirpath){
   return filer.init().yield(dirpath);
 }
 
+function mkdir(dirpath){
+  return filer.mkdir(dirpath).yield(dirpath);
+}
+
 function cd(dirpath){
   return filer.cd(dirpath);
 }
@@ -19,6 +23,7 @@ function getPath(entry){
 
 const seq = [
   init,
+  mkdir,
   cd,
   getPath
 ];
