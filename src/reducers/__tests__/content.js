@@ -3,6 +3,7 @@
 const expect = require('expect');
 
 const content = require('../content');
+const { CHANGE_FILE, UPDATE_CONTENT } = require('../../constants');
 
 describe('content reducer', function(){
 
@@ -26,7 +27,7 @@ describe('content reducer', function(){
     it('CHANGE_FILE', function(done){
       const initial = '';
       const payload = { content: 'test' };
-      const action = { type: 'CHANGE_FILE', payload: payload };
+      const action = { type: CHANGE_FILE, payload: payload };
       const state = content(initial, action);
       expect(state).toEqual(payload.content);
       done();
@@ -35,7 +36,7 @@ describe('content reducer', function(){
     it('UPDATE_CONTENT', function(done){
       const initial = '';
       const payload = { content: 'test' };
-      const action = { type: 'UPDATE_CONTENT', payload: payload };
+      const action = { type: UPDATE_CONTENT, payload: payload };
       const state = content(initial, action);
       expect(state).toEqual(payload.content);
       done();
