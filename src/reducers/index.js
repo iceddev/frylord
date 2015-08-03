@@ -7,7 +7,8 @@ const reducers = {
   projects: require('./projects'),
   directory: require('./directory'),
   status: require('./status'),
-  notification: require('./notification')
+  notification: require('./notification'),
+  unsaved: require('./unsaved')
 };
 
 module.exports = reducers;

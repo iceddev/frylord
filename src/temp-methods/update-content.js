@@ -11,11 +11,11 @@ const updateAction = require('../utils/update-action');
 const refreshDirectoryAction = require('../utils/refresh-directory-action');
 
 function updateTempfile(filepath, newContents){
-  return put(filepath, newContents);
+  return put(filepath, newContents).yield({ unsaved: true });
 }
 
 function removeTempfile(filepath){
-  return del(filepath);
+  return del(filepath).yield({ unsaved: false });
 }
 
 function compareContents(filepath, newContents, savedContents){
@@ -33,7 +33,7 @@ function updateContents(action, state, next){
 
   return when.try(compareContents, filepath, content, readFile(filepath))
     .catch(() => updateTempfile(filepath, content))
-    .yield({ content })
+    .then(({ unsaved }) => ({ content, unsaved }))
     .fold(updateAction, action)
     .then(next)
     .then(listDir)

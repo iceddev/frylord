@@ -8,7 +8,8 @@ function createAction(content){
   return {
     type: UPDATE_CONTENT,
     payload: {
-      content
+      content,
+      unsaved: true
     }
   };
 }
