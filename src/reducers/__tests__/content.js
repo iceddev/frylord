@@ -6,10 +6,6 @@ const content = require('../content');
 
 describe('content reducer', function(){
 
-  const payload = {
-    content: 'test content'
-  };
-
   it('return an empty string if the initial state is undefined and action type does not match', function(done){
     const initial = undefined;
     const action = {};
