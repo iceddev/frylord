@@ -11,16 +11,16 @@ const {
   } = require('../../constants');
 
 describe('#directory', function(){
-
-  it('returns empty array when initial state is undefined and type does not match', function(done){
-    const initial = undefined;
-    const type = undefined;
     const payload = {
       listing: [
         'file1',
         'file2'
       ]
     };
+
+  it('returns empty array when initial state is undefined and type does not match', function(done){
+    const initial = undefined;
+    const type = undefined;
     const state = directory(initial, { type: type, payload: payload });
     expect(state).toEqual([]);
     done();
@@ -48,12 +48,6 @@ describe('#directory', function(){
     it('SAVE_FILE', function(done){
       const initial = 'test';
       const type = SAVE_FILE;
-      const payload = {
-        listing: [
-          'file1',
-          'file2'
-        ]
-      };
       const state = directory(initial, { type: type, payload: payload });
       expect(state).toEqual(payload.listing);
       done();
@@ -62,12 +56,6 @@ describe('#directory', function(){
     it('DELETE_FILE', function(done){
       const initial = 'test';
       const type = DELETE_FILE;
-      const payload = {
-        listing: [
-          'file1',
-          'file2'
-        ]
-      };
       const state = directory(initial, { type: type, payload: payload });
       expect(state).toEqual(payload.listing);
       done();
@@ -76,12 +64,6 @@ describe('#directory', function(){
     it('CHANGE_DIRECTORY', function(done){
       const initial = 'test';
       const type = CHANGE_DIRECTORY;
-      const payload = {
-        listing: [
-          'file1',
-          'file2'
-        ]
-      };
       const state = directory(initial, { type: type, payload: payload });
       expect(state).toEqual(payload.listing);
       done();
@@ -90,12 +72,6 @@ describe('#directory', function(){
     it('REFRESH_DIRECTORY', function(done){
       const initial = 'test';
       const type = REFRESH_DIRECTORY;
-      const payload = {
-        listing: [
-          'file1',
-          'file2'
-        ]
-      };
       const state = directory(initial, { type: type, payload: payload });
       expect(state).toEqual(payload.listing);
       done();
@@ -104,12 +80,6 @@ describe('#directory', function(){
     it('even if initial state is undefined', function(done){
       const initial = undefined;
       const type = SAVE_FILE;
-      const payload = {
-        listing: [
-          'file1',
-          'file2'
-        ]
-      };
       const state = directory(initial, { type: type, payload: payload });
       expect(state).toEqual(payload.listing);
       done();

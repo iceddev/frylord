@@ -1,94 +1,64 @@
 'use strict';
 
-var expect = require('expect');
+const expect = require('expect');
 
-var filename = require('../filename');
+const filename = require('../filename');
+const {
+  CHANGE_FILE,
+  UPDATE_FILENAME
+} = require('../../constants');
 
 describe('#filename', function(){
-  var state, type, payload, action;
+  const payload = { filename: 'test' };
 
-  beforeEach(function(){
-    state = 'file1.js';
-    type = 'NOT_VALID_TYPE';
-    payload = {
-      filename: 'blink.js'
-    };
-    action = {
-      type: type,
-      payload: payload
-    };
-  });
-
-  afterEach(function(){
-    state = type = payload = action = null;
-  });
-
-  it('returns an empty string when state is undefined', function(done){
-    state = undefined;
-    expect(filename(state, action))
-    .toBeA('string')
-    .toBe('');
+  it('returns empty string when initial state is undefined and type is not matched', function(done){
+    const initial = undefined;
+    const action = { type: undefined, payload: payload };
+    const state = filename(initial, action);
+    expect(state).toEqual('');
     done();
   });
 
-  it('returns state when type in not matched', function(done){
-    expect(filename(state, action)).toBe(state);
+  it('returns initial state when type is not matched', function(done){
+    const initial = 'initial';
+    const action = { type: undefined, payload: payload };
+    const state = filename(initial, action);
+    expect(state).toEqual(initial);
     done();
   });
 
   describe('returns action.payload.filename when type matches', function(){
     it('CHANGE_FILE', function(done){
-      action.type = 'CHANGE_FILE';
-      expect(filename(state, action)).toBe(action.payload.filename);
+      const initial = 'initial';
+      const action = { type: CHANGE_FILE, payload: payload };
+      const state = filename(initial, action);
+      expect(state).toEqual(payload.filename);
       done();
     });
 
     it('UPDATE_FILENAME', function(done){
-      action.type = 'UPDATE_FILENAME';
-      expect(filename(state, action)).toBe(action.payload.filename);
+      const initial = 'initial';
+      const action = { type: UPDATE_FILENAME, payload: payload };
+      const state = filename(initial, action);
+      expect(state).toEqual(payload.filename);
       done();
     });
 
-    it('even if state is undefined', function(done){
-      action.type = 'CHANGE_FILE';
-      state = undefined;
-      expect(filename(state, action)).toBe(action.payload.filename);
-      done();
-    });
-  });
-
-  describe('throws an error', function(){
-    it.skip('when state is not a string', function(done){
-      state = {};
-      expect(function() {
-        filename(state, action);
-      }).toThrow(/Type Error: 'state' must be a string/);
-      done();
-    });
-
-    it.skip('when action.type is undefined', function(done){
-      action.type = undefined;
-      expect(function(){
-        filename(state, action);
-      }).toThrow(/Type Error: 'type' cannot be undefined/);
-      done();
-    });
-
-    it('when action.payload is undefined', function(done){
-      action.payload = undefined;
-      action.type = 'CHANGE_FILE';
-      expect(function(){
-        filename(state, action);
-      }).toThrow(/Cannot read property 'filename' of undefined/);
+    it('even if initial state is undefined', function(done){
+      const initial = undefined;
+      const action = { type: UPDATE_FILENAME, payload: payload };
+      const state = filename(initial, action);
+      expect(state).toEqual(payload.filename);
       done();
     });
   });
 
   it('returns undefined when type matches and action.payload.filename is undefined', function(done){
-    action.payload.filename = undefined;
-    action.type = 'CHANGE_FILE';
-    expect(filename(state, action)).toBeA('undefined');
+      const initial = 'initial';
+      const payload = {};
+      const action = { type: UPDATE_FILENAME, payload: payload };
+      const state = filename(initial, action);
+      expect(state).toEqual(undefined);
     done();
   });
-
 });
