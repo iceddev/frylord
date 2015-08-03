@@ -34,7 +34,7 @@
     "zuul": "^3.2.0"
   },
   "dependencies": {
-    "@phated/filer": "^0.2.3",
+    "@phated/filer": "^0.2.4",
     "level-js": "^2.2.1",
     "levelup": "^0.19.0",
     "lodash": "^3.10.0",
