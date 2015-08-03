@@ -3,6 +3,7 @@
 const actions = {
   updateContent: require('./update-content'),
   updateFilename: require('./update-filename'),
+  newFile: require('./new-file'),
   saveFile: require('./save-file'),
   deleteFile: require('./delete-file'),
   changeFile: require('./change-file'),
