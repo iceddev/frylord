@@ -11,6 +11,7 @@ const {
 const {
   ERROR,
   UPDATE_CONTENT,
+  NEW_FILE,
   SAVE_FILE,
   DELETE_FILE,
   CHANGE_FILE,
@@ -28,12 +29,14 @@ function handleError(action, state, next){
   switch(status){
     case CHANGE_FILE_FAILURE:
       const newAction = {
-        type: CHANGE_FILE,
+        type: NEW_FILE,
         payload: {
-          filename: args[0]
+          filename: args[0],
+          unsaved: true
         }
       };
       // TODO: handle an error in this too
+      // TODO: name this better
       return changeFile(newAction, state, next)
         .catch(() => next(action));
     default:
