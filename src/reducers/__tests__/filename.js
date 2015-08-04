@@ -13,16 +13,16 @@ describe('#filename', function(){
 
   it('returns empty string when initial state is undefined and type is not matched', function(done){
     const initial = undefined;
-    const action = { type: undefined, payload: payload };
-    const state = filename(initial, action);
+    const type = undefined;
+    const state = filename(initial, { type, payload });
     expect(state).toEqual('');
     done();
   });
 
   it('returns initial state when type is not matched', function(done){
     const initial = 'initial';
-    const action = { type: undefined, payload: payload };
-    const state = filename(initial, action);
+    const type = undefined;
+    const state = filename(initial, { type, payload });
     expect(state).toEqual(initial);
     done();
   });
@@ -30,24 +30,24 @@ describe('#filename', function(){
   describe('returns action.payload.filename when type matches', function(){
     it('CHANGE_FILE', function(done){
       const initial = 'initial';
-      const action = { type: CHANGE_FILE, payload: payload };
-      const state = filename(initial, action);
+      const type = CHANGE_FILE;
+      const state = filename(initial, { type, payload });
       expect(state).toEqual(payload.filename);
       done();
     });
 
     it('UPDATE_FILENAME', function(done){
       const initial = 'initial';
-      const action = { type: UPDATE_FILENAME, payload: payload };
-      const state = filename(initial, action);
+      const type = UPDATE_FILENAME;
+      const state = filename(initial, { type, payload });
       expect(state).toEqual(payload.filename);
       done();
     });
 
     it('even if initial state is undefined', function(done){
       const initial = undefined;
-      const action = { type: UPDATE_FILENAME, payload: payload };
-      const state = filename(initial, action);
+      const type = UPDATE_FILENAME;
+      const state = filename(initial, { type, payload });
       expect(state).toEqual(payload.filename);
       done();
     });
@@ -56,8 +56,8 @@ describe('#filename', function(){
   it('returns undefined when type matches and action.payload.filename is undefined', function(done){
       const initial = 'initial';
       const payload = {};
-      const action = { type: UPDATE_FILENAME, payload: payload };
-      const state = filename(initial, action);
+      const type = UPDATE_FILENAME;
+      const state = filename(initial, { type, payload });
       expect(state).toEqual(undefined);
     done();
   });
