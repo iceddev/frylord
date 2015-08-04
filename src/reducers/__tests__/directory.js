@@ -11,7 +11,7 @@ const {
   } = require('../../constants');
 
 describe('#directory', function(){
-    const payload = {
+  const payload = {
       listing: [
         'file1',
         'file2'
