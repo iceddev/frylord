@@ -22,8 +22,8 @@ describe('#projects', function(){
 
     it('type does not match and initial state is undefined', function(done){
       const initial = undefined;
-      const action = { type: undefined, payload: payload };
-      const state = projects(initial, action);
+      const type = undefined;
+      const state = projects(initial, { type, payload });
       expect(state).toEqual([]);
       done();
     });
@@ -34,16 +34,16 @@ describe('#projects', function(){
 
       it('undefined', function(done){
         const payload = {};
-        const action = { type: DELETE_DIRECTORY, payload: payload };
-        const state = projects(initial, action);
+        const type = DELETE_DIRECTORY;
+        const state = projects(initial, { type, payload });
         expect(state).toEqual([]);
         done();
       });
 
       it('null', function(done){
         const payload = { projects: null };
-        const action = { type: DELETE_DIRECTORY, payload: payload };
-        const state = projects(initial, action);
+        const type = DELETE_DIRECTORY;
+        const state = projects(initial, { type, payload });
         expect(state).toEqual([]);
         done();
       });
@@ -55,15 +55,15 @@ describe('#projects', function(){
     const initial = 'test';
 
     it('DELETE_DIRECTORY', function(done){
-      const action = { type: DELETE_DIRECTORY, payload: payload };
-      const state = projects(initial, action);
+      const type = DELETE_DIRECTORY;
+      const state = projects(initial, { type, payload });
       expect(state).toEqual(payload.projects);
       done();
     });
 
     it('CHANGE_DIRECTORY', function(done){
-      const action = { type: CHANGE_DIRECTORY, payload: payload };
-      const state = projects(initial, action);
+      const type = CHANGE_DIRECTORY;
+      const state = projects(initial, { type, payload });
       expect(state).toEqual(payload.projects);
       done();
     });
@@ -71,8 +71,8 @@ describe('#projects', function(){
 
   it('returns initial state when type is undefined', function(done){
     const initial = 'test';
-    const action = { type: undefined, payload: payload };
-    const state = projects(initial, action);
+    const type = undefined;
+    const state = projects(initial, { type, payload });
     expect(state).toEqual(initial);
     done();
   });
