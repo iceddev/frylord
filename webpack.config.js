@@ -24,7 +24,7 @@ if(isTest){
       /node_modules/
     ],
     loader: 'isparta-loader'
-  })
+  });
 }
 
 module.exports = {
