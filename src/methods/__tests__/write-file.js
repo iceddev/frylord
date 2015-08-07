@@ -19,16 +19,19 @@ describe('writeFile methods', function(){
   const base = path.basename(filepath);
   const data = 'this is sample text';
 
+  afterEach(function(done){
+    init()
+      .then(() => rm('/this'))
+      .catch(console.log.bind(console, 'afterEach of writeFile: '))
+      .finally(() => done());
+  });
+
   it('creates a file in a given directory provided in filepath', function(done){
     writeFile(filepath, data)
       .then(function(entryArr){
         expect(entryArr[1].fullPath).toEqual(dir);
       })
-      .then(function(){
-        init()
-          .then(rm(filepath));
-      })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 
   it('creates a file with a name provided in filepath', function(done){
@@ -36,11 +39,7 @@ describe('writeFile methods', function(){
       .then(function(entryArr){
         expect(entryArr[2][0].name).toEqual(base);
       })
-      .then(function(){
-        init()
-          .then(rm(filepath));
-      })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 
   it('creates a file in the current directory when filepath argument has no slashes', function(done){
@@ -56,7 +55,7 @@ describe('writeFile methods', function(){
         init()
           .then(rm(filepath));
       })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 
   it('sets the mime type to "text/plain"', function(done){
@@ -68,11 +67,7 @@ describe('writeFile methods', function(){
       .then(function(file){
         expect(file.type).toEqual('text/plain');
       })
-      .then(function(){
-        init()
-          .then(rm(filepath));
-      })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 
   it('sets the content of the file to the text argument', function(done){
@@ -85,10 +80,6 @@ describe('writeFile methods', function(){
       .then(function(text){
         expect(text).toEqual(data);
       })
-      .then(function(){
-        init()
-          .then(rm(filepath));
-      })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 });
