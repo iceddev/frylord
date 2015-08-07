@@ -3,6 +3,7 @@
 const {
   NEW_FILE,
   SAVE_FILE,
+  RESET_FILE,
   CHANGE_FILE
 } = require('../constants');
 
@@ -16,6 +17,8 @@ function isNew(state = initial, { type }){
     // TODO: what if we delete the file?
     case SAVE_FILE:
     case CHANGE_FILE:
+      return false;
+    case RESET_FILE:
       return false;
     default:
       return state;

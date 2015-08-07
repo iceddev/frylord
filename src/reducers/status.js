@@ -1,7 +1,5 @@
 'use strict';
 
-// NO IDEA WHAT I AM DOING HERE
-
 const {
   ERROR,
   SAVE_FILE,

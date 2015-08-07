@@ -5,6 +5,7 @@ const actions = {
   updateFilename: require('./update-filename'),
   newFile: require('./new-file'),
   saveFile: require('./save-file'),
+  resetFile: require('./reset-file'),
   deleteFile: require('./delete-file'),
   changeFile: require('./change-file'),
   deleteDirectory: require('./delete-directory'),

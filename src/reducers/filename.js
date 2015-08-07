@@ -2,6 +2,7 @@
 
 const {
   NEW_FILE,
+  RESET_FILE,
   CHANGE_FILE,
   UPDATE_FILENAME
 } = require('../constants');
@@ -14,6 +15,8 @@ function filename(state = initial, { type, payload }){
     case CHANGE_FILE:
     case UPDATE_FILENAME:
       return payload.filename;
+    case RESET_FILE:
+      return initial;
     default:
       return state;
   }

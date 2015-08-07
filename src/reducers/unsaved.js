@@ -3,6 +3,7 @@
 const {
   NEW_FILE,
   SAVE_FILE,
+  RESET_FILE,
   CHANGE_FILE,
   UPDATE_CONTENT
 } = require('../constants');
@@ -19,6 +20,8 @@ function unsaved(state = initial, { type, payload }){
     case SAVE_FILE:
     case CHANGE_FILE:
       // changing or saving the file means it is saved
+      return initial;
+    case RESET_FILE:
       return initial;
     default:
       return state;
