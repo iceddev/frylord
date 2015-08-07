@@ -7,7 +7,6 @@ const expect = require('expect');
 const listRoot = require('../list-root');
 const {
   init,
-  cd,
   ls,
   write,
   rm
@@ -19,48 +18,51 @@ const filenames = _.map(new Array(5), (val, idx) => {
 });
 
 describe('listRoot methods', function(){
-  let files = [];
+
+  before(function(done){
+    init()
+      .then(() => ls(dirPath))
+      .then((entries) => {
+        _.forEach(entries, (entry) =>{
+          rm(entry.fullPath);
+        });
+      })
+      .catch(console.log.bind(console, 'before of listRoot:'))
+      .finally(() => done());
+  });
 
   beforeEach(function(done){
     init()
       .then(function(){
         const len = filenames.length;
         return map(filenames, (val, idx) => {
-          return write(`${dirPath}/${val}`, {
+          return write(val, {
             data: `${idx + 1} of ${len}`,
             type: 'text/plain'
           });
         });
       })
-      .then(function(){
-        return ls(dirPath);
-      })
-      .then(function(createdEntries){
-        files = createdEntries;
-        return true;
-      })
-      .then(() => done(), done);
+      .catch(console.log.bind(console, 'beforeEach of listRoot:'))
+      .finally(() => done());
   });
 
   afterEach(function(done){
     init()
-      .then(() => cd(dirPath))
-      .then(function(){
-        return map(filenames, (val) => {
-          return rm(val);
+      .then(() => ls(dirPath))
+      .then((entries) => {
+        _.forEach(entries, (entry) =>{
+          rm(entry.fullPath);
         });
       })
-      .then(function(){
-        files = [];
-      })
-      .then(() => done(), done);
+      .catch(console.log.bind(console, 'afterEach of listRoot:'))
+      .finally(() => done());
   });
 
   it('lists all entries in the root directory', function(done){
     listRoot()
       .then(function(entries){
-        expect(entries.length).toEqual(files.length);
+        expect(entries.length).toEqual(filenames.length);
       })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 });

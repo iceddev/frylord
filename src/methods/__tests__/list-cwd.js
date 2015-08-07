@@ -9,51 +9,52 @@ const {
   init,
   cd,
   ls,
+  mkdir,
   write,
   rm
 } = require('../../filer');
 
-const dirPath = '/test';
-const filenames = _.map(new Array(5), (val, idx) => {
-  return `test${idx + 1}`;
+const dirPath = '/cwd';
+const filenames = _.map(new Array(3), (val, idx) => {
+  return `test${idx + 1}.txt`;
 });
 
 describe('listCwd methods', function(){
-  let files = [];
+
+  before(function(done){
+    init()
+      .then(() => mkdir(dirPath, false))
+      .then(() => ls(dirPath))
+      .then((entries) => {
+        _.forEach(entries, (entry) =>{
+          rm(entry.fullPath);
+        });
+      })
+      .catch(console.log.bind(console, 'before of listCwd:'))
+      .finally(() => done(), done);
+  });
 
   beforeEach(function(done){
     init()
       .then(function(){
         const len = filenames.length;
         return map(filenames, (val, idx) => {
-          return write(`${dirPath}/${val}`, {
+          let filepath = `${dirPath}/${val}`;
+          return write(filepath, {
             data: `${idx + 1} of ${len}`,
             type: 'text/plain'
           });
         });
       })
-      .then(function(){
-        return ls(dirPath);
-      })
-      .then(function(createdEntries){
-        files = createdEntries;
-        return true;
-      })
-      .then(() => done(), done);
+      .catch(console.log.bind(console, 'beforeEach of listCwd:'))
+      .finally(() => done());
   });
 
   afterEach(function(done){
     init()
-      .then(() => cd(dirPath))
-      .then(function(){
-        return map(filenames, (val) => {
-          return rm(val);
-        });
-      })
-      .then(function(){
-        files = [];
-      })
-      .then(() => done(), done);
+      .then(() => rm(dirPath))
+      .catch(console.log.bind(console, 'afterEach of listCwd:'))
+      .finally(() => done());
   });
 
   it('lists all entries in the current working directory', function(done){
@@ -61,8 +62,8 @@ describe('listCwd methods', function(){
       .then(() => cd(dirPath))
       .then(() => listCwd())
       .then(function(entries){
-        expect(entries.length).toEqual(files.length);
+        expect(entries.length).toEqual(filenames.length);
       })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 });

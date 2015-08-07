@@ -15,39 +15,30 @@ describe('readFile methods', function(){
   beforeEach(function(done){
     init()
       .then(() => write(filepath, opts))
-      .then(() => done(), done);
+      .catch(console.log.bind(console, 'beforeEach of readFile: '))
+      .finally(() => done());
   });
 
   afterEach(function(done){
     init()
       .then(() => rm(filepath))
-      .then(() => done(), done);
+      .catch(console.log.bind(console, 'afterEach of readFile: '))
+      .finally(() => done());
   });
-
 
   it('returns text when passed a valid filepath', function(done){
     readFile(filepath)
       .then(function(text){
         expect(text).toEqual(opts.data);
       })
-      .then(() => done(), done);
+      .finally(() => done(), done);
   });
 
-  // I DON'T KNOW HOW TO MAKE THIS WORK
-  it.skip('returns an a rejected promise when filepath is not valid', function(done){
-    const filepath = '';
-    const errMsg = 'this should not have worked';
-    console.log(readFile);
-    readFile(filepath)
-    // I pass in an invalid filepath and then what?
-    // If readfile was successful there is a problem.
-      .then(function(){
-        done(new Error(errMsg));
+  it('returns an a rejected promise when filepath is not valid', function(done){
+    readFile('doesNotExist.txt')
+      .catch((err) => {
+        expect(err.message).toContain('could not be found');
       })
-    // readFile should reject the promist with an error that I can match here.
-      .catch(function(err){
-        expect(err).toExist();
-        done();
-      });
+      .finally(() => done());
   });
 });
