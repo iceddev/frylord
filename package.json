@@ -3,6 +3,21 @@
   "version": "0.7.0",
   "description": "Irken plugin exposing workspaces",
   "main": "index.js",
+  "files": [
+    "actions",
+    "methods",
+    "middleware",
+    "reducers",
+    "temp-methods",
+    "utils",
+    "constants.js",
+    "create-store.js",
+    "filer.js",
+    "index.js",
+    "level.js",
+    "status-constants.js",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "zuul test/*.js --local --open",
     "ci": "zuul test/*.js --electron",
