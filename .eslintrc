@@ -12,7 +12,8 @@
     "constructor-super": [2],
     "no-this-before-super": [2],
     "object-shorthand": [2, "always"],
-    "space-in-parens": [2, "never"]
+    "space-in-parens": [2, "never"],
+    "no-console": [1]
   },
   "env": {
     "es6": true,
