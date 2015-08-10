@@ -20,7 +20,7 @@ describe('content reducer', function(){
     const initial = 'test';
     const action = {};
     const state = content(initial, action);
-    expect(state).toEqual(state);
+    expect(state).toEqual(initial);
     done();
   });
 
