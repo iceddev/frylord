@@ -11,7 +11,8 @@
     "prefer-const": [2],
     "constructor-super": [2],
     "no-this-before-super": [2],
-    "object-shorthand": [2, "always"]
+    "object-shorthand": [2, "always"],
+    "space-in-parens": [2, "never"]
   },
   "env": {
     "es6": true,

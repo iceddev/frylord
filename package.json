@@ -19,8 +19,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "eslint ./src/ && zuul ./src/**/__tests__/**/*.js --local --open --test",
-    "ci": "eslint ./src/ && zuul ./src/**/__tests__/**/*.js --electron --test",
+    "test": "npm run lint && zuul ./src/**/__tests__/**/*.js --local --open --test",
+    "ci": "npm run lint && zuul ./src/**/__tests__/**/*.js --electron --test",
+    "lint": "eslint ./src/",
     "build": "babel ./src/ --out-dir ./",
     "example": "webpack-dev-server",
     "prepublish": "npm run build"
