@@ -12,7 +12,7 @@ const {
   CHANGE_DIRECTORY
 } = require('../../constants');
 
-describe('#status', function(){
+describe('status reducer', function(){
   const payload = { status: 'passed'};
 
   describe('returns an empty string', function(){

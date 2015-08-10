@@ -12,7 +12,7 @@ const {
   CHANGE_DIRECTORY
 } = require('../../constants');
 
-describe('#notifcation', function(){
+describe('notifcation reducer', function(){
   const payload = {
     notification: 'some notification'
   };

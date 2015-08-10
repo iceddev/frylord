@@ -10,7 +10,7 @@ const {
   REFRESH_DIRECTORY
 } = require('../../constants');
 
-describe('#directory', function(){
+describe('directory reducer', function(){
   const payload = {
     listing: [
       'file1',

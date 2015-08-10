@@ -9,7 +9,7 @@ const {
   CHANGE_DIRECTORY
 } = require('../../constants');
 
-describe('#projects', function(){
+describe('projects reducer', function(){
   const payload = {
     projects: [
       'payload1',

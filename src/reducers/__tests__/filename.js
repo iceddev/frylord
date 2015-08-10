@@ -8,7 +8,7 @@ const {
   UPDATE_FILENAME
 } = require('../../constants');
 
-describe('#filename', function(){
+describe('filename reducer', function(){
   const payload = { filename: 'test' };
 
   it('returns empty string when initial state is undefined and type is not matched', function(done){
