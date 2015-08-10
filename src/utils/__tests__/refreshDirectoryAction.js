@@ -8,9 +8,9 @@ const { REFRESH_DIRECTORY } = require('../../constants');
 
 describe('refreshDirectoryAction Util', function(){
   const ref = {
-        listing: 'item one',
-        two: 'item two'
-      };
+    listing: 'item one',
+    two: 'item two'
+  };
 
   it('returns a Flux Standard Action (FSA) object', function(done){
     const action = refreshDirectoryAction(ref);

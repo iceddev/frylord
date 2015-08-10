@@ -12,11 +12,11 @@ const {
 
 describe('#directory', function(){
   const payload = {
-      listing: [
-        'file1',
-        'file2'
-      ]
-    };
+    listing: [
+      'file1',
+      'file2'
+    ]
+  };
 
   it('returns empty array when initial state is undefined and type does not match', function(done){
     const initial = undefined;

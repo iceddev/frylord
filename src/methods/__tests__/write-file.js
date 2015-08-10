@@ -14,17 +14,33 @@ const {
 } = require('../../filer');
 
 describe('writeFile methods', function(){
-  const filepath = '/this/is/a/test.txt';
-  const dir = path.dirname(filepath);
+  let filepath = '/this/is/a/test.txt';
+  let dir = path.dirname(filepath);
   const base = path.basename(filepath);
   const data = 'this is sample text';
+
+  beforeEach(function(done){
+    filepath = '/this/is/a/test.txt';
+    dir = path.dirname(filepath);
+    done();
+  });
+
+  afterEach(function(done){
+    if (dir === path.dirname(filepath)){
+      dir = '/this';
+    } else {
+      dir = filepath;
+    }
+    init()
+      .then(() => rm(dir))
+      .then(() => done(), done);
+  });
 
   it('creates a file in a given directory provided in filepath', function(done){
     writeFile(filepath, data)
       .then(function(entryArr){
         expect(entryArr[1].fullPath).toEqual(dir);
       })
-      .then(() => rm('this'))
       .then(() => done(), done);
   });
 
@@ -33,20 +49,19 @@ describe('writeFile methods', function(){
       .then(function(entryArr){
         expect(entryArr[2][0].name).toEqual(base);
       })
-      .then(() => rm('this'))
       .then(() => done(), done);
   });
 
   it('creates a file in the current directory when filepath argument has no slashes', function(done){
-    const filepath = 'name-only.txt';
+    filepath = 'name-only.txt';
+    dir = '/';
     init()
-      .then(() => cd('/'))
+      .then(() => cd(dir))
       .then(() => writeFile(filepath, data))
       .then(function(entryArr){
         expect(entryArr[2][0].name).toEqual(filepath);
         expect(entryArr[1].fullPath).toEqual('/');
       })
-      .then(() => rm(filepath))
       .then(() => done(), done);
   });
 
@@ -56,7 +71,6 @@ describe('writeFile methods', function(){
       .then(function(file){
         expect(file.type).toEqual('text/plain');
       })
-      .then(() => rm('this'))
       .then(() => done(), done);
   });
 
@@ -67,7 +81,6 @@ describe('writeFile methods', function(){
       .then(function(text){
         expect(text).toEqual(data);
       })
-      .then(() => rm('this'))
       .then(() => done(), done);
   });
 });

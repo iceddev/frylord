@@ -54,11 +54,11 @@ describe('#filename', function(){
   });
 
   it('returns undefined when type matches and action.payload.filename is undefined', function(done){
-      const initial = 'initial';
-      const payload = {};
-      const type = UPDATE_FILENAME;
-      const state = filename(initial, { type, payload });
-      expect(state).toEqual(undefined);
+    const initial = 'initial';
+    const payload = {};
+    const type = UPDATE_FILENAME;
+    const state = filename(initial, { type, payload });
+    expect(state).toEqual(undefined);
     done();
   });
 });

@@ -39,7 +39,7 @@ describe('updateAction Util', function(){
       }
     };
     const update = { update: 'changed'};
-    const updated = updateAction( action, update);
+    const updated = updateAction(action, update);
     const actionArgumentProp = Object.keys(action.payload);
     const returnPayloadKeys = Object.keys(updated.payload);
     const verification = filter(actionArgumentProp, function(prop){
@@ -57,7 +57,7 @@ describe('updateAction Util', function(){
       }
     };
     const update = { update: 'changed'};
-    const updated = updateAction( action, update);
+    const updated = updateAction(action, update);
     expect(Object.keys(updated.payload).length).toBeGreaterThan(1);
     done();
   });
@@ -70,7 +70,7 @@ describe('updateAction Util', function(){
       }
     };
     const update = { update: 'changed'};
-    const updated = updateAction( action, update);
+    const updated = updateAction(action, update);
     const updateArgumentProp = Object.keys(action.payload);
     const returnPayloadKeys = Object.keys(updated.payload);
     const verification = filter(updateArgumentProp, function(prop){

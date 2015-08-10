@@ -24,22 +24,14 @@ describe('listProjects methods', function(){
   beforeEach(function(done){
     init()
       .then(() => cd(dirPath))
-      .then(function(){
-        return map(projects, (val) => {
-          return mkdir(val, false);
-        });
-      })
+      .then(() => map(projects, (val) => mkdir(val, false)))
       .then(() => done(), done);
   });
 
   afterEach(function(done){
     init()
       .then(() => ls(dirPath))
-      .then((entries) => {
-        _.forEach(entries, (entry) => {
-          return rm(entry);
-        });
-      })
+      .then((entries) => map(entries, (entry) => rm(entry)))
       .then(() => done(), done);
   });
 

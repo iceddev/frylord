@@ -36,11 +36,7 @@ describe('listRoot methods', function(){
   afterEach(function(done){
     init()
       .then(() => ls(dirPath))
-      .then((entries) => {
-        _.forEach(entries, (entry) =>{
-          rm(entry.fullPath);
-        });
-      })
+      .then((entries) => map(entries, (entry) => rm(entry.fullPath)))
       .then(() => done(), done);
   });
 

@@ -1,8 +1,8 @@
 'use strict';
 
-var expect = require('expect');
+const expect = require('expect');
 
-var notification = require('../notification');
+const notification = require('../notification');
 const {
   ERROR,
   SAVE_FILE,
@@ -14,8 +14,8 @@ const {
 
 describe('#notifcation', function(){
   const payload = {
-      notification: 'some notification'
-    };
+    notification: 'some notification'
+  };
 
   describe('returns an empty string', function(){
     it('when type is not matched and initial state is undefined', function(done){

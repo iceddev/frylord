@@ -26,7 +26,7 @@ describe('listCwd methods', function(){
       .then(function(){
         const len = filenames.length;
         return map(filenames, (val, idx) => {
-          let filepath = `${dirPath}/${val}`;
+          const filepath = `${dirPath}/${val}`;
           return write(filepath, {
             data: `${idx + 1} of ${len}`,
             type: 'text/plain'
