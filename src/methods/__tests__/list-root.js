@@ -19,18 +19,6 @@ const filenames = _.map(new Array(5), (val, idx) => {
 
 describe('listRoot methods', function(){
 
-  before(function(done){
-    init()
-      .then(() => ls(dirPath))
-      .then((entries) => {
-        _.forEach(entries, (entry) =>{
-          rm(entry.fullPath);
-        });
-      })
-      .catch(console.log.bind(console, 'before of listRoot:'))
-      .finally(() => done());
-  });
-
   beforeEach(function(done){
     init()
       .then(function(){
@@ -42,8 +30,7 @@ describe('listRoot methods', function(){
           });
         });
       })
-      .catch(console.log.bind(console, 'beforeEach of listRoot:'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   afterEach(function(done){
@@ -54,8 +41,7 @@ describe('listRoot methods', function(){
           rm(entry.fullPath);
         });
       })
-      .catch(console.log.bind(console, 'afterEach of listRoot:'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   it('lists all entries in the root directory', function(done){
@@ -63,6 +49,6 @@ describe('listRoot methods', function(){
       .then(function(entries){
         expect(entries.length).toEqual(filenames.length);
       })
-      .finally(() => done(), done);
+      .then(() => done(), done);
   });
 });

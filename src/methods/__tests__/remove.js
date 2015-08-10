@@ -17,26 +17,22 @@ describe('remove methods', function(){
   beforeEach(function(done){
     init()
       .then(() => write(filepath, { data, type: 'text/plain'}))
-      .catch(console.log.bind(console, 'beforeEach of remove'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   after(function(done){
     init()
       .then(() => ls('/'))
-      .catch(console.log.bind(console, 'after of remove'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   it('removes a file at a given filepath', function(done){
     const errName = 'NOT_FOUND_ERR';
     remove(filepath)
-      .then(function(){
-        return init().then(() => open(filepath));
-      })
+      .then(() => open(filepath))
       .catch((err) => {
         expect(err.name).toEqual(errName);
       })
-      .finally(() => done());
+      .then(() => done(), done);
   });
 });

@@ -21,18 +21,6 @@ const dirPath = '/';
 
 describe('listProjects methods', function(){
 
-  before(function(done){
-    init()
-      .then(() => ls(dirPath))
-      .then((entries) => {
-        _.forEach(entries, (entry) => {
-          return rm(entry);
-        });
-      })
-      .catch(console.log.bind(console, 'before of listProjects: '))
-      .finally(() => done());
-  });
-
   beforeEach(function(done){
     init()
       .then(() => cd(dirPath))
@@ -41,8 +29,7 @@ describe('listProjects methods', function(){
           return mkdir(val, false);
         });
       })
-      .catch(console.log.bind(console, 'beforeEach of listProjects: '))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   afterEach(function(done){
@@ -53,8 +40,7 @@ describe('listProjects methods', function(){
           return rm(entry);
         });
       })
-      .catch(console.log.bind(console, 'afterEach of listProjects: '))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   it('returns the projects in a given directory', function(done){
@@ -62,6 +48,6 @@ describe('listProjects methods', function(){
       .then(function(projectsArr){
         expect(projectsArr.length).toEqual(projects.length);
       })
-      .finally(() => done(), done);
+      .then(() => done(), done);
   });
 });

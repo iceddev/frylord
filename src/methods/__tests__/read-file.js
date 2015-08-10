@@ -15,15 +15,13 @@ describe('readFile methods', function(){
   beforeEach(function(done){
     init()
       .then(() => write(filepath, opts))
-      .catch(console.log.bind(console, 'beforeEach of readFile: '))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   afterEach(function(done){
     init()
       .then(() => rm(filepath))
-      .catch(console.log.bind(console, 'afterEach of readFile: '))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   it('returns text when passed a valid filepath', function(done){
@@ -31,7 +29,7 @@ describe('readFile methods', function(){
       .then(function(text){
         expect(text).toEqual(opts.data);
       })
-      .finally(() => done(), done);
+      .then(() => done(), done);
   });
 
   it('returns an a rejected promise when filepath is not valid', function(done){
@@ -39,6 +37,6 @@ describe('readFile methods', function(){
       .catch((err) => {
         expect(err.message).toContain('could not be found');
       })
-      .finally(() => done());
+      .then(() => done(), done);
   });
 });

@@ -19,18 +19,6 @@ const filenames = _.map(new Array(5), (val, idx) => {
 
 describe('listDir methods', function(){
 
-  before(function(done){
-    init()
-      .then(() => ls(dirPath))
-      .then((entries) => {
-        _.forEach(entries, (entry) => {
-          rm(entry.fullPath);
-        });
-      })
-      .catch(console.log.bind(console, 'before of listDir:'))
-      .finally(() => done());
-  });
-
   beforeEach(function(done){
     init()
       .then(function(){
@@ -42,8 +30,7 @@ describe('listDir methods', function(){
           });
         });
       })
-      .catch(console.log.bind(console, 'beforeEach of listDir:'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   afterEach(function(done){
@@ -54,8 +41,7 @@ describe('listDir methods', function(){
           rm(entry.fullPath);
         });
       })
-      .catch(console.log.bind(console, 'afterEach of listDir:'))
-      .finally(() => done());
+      .then(() => done(), done);
   });
 
   it('lists all entries in argument specified directory', function(done){
@@ -63,6 +49,6 @@ describe('listDir methods', function(){
       .then(function(entries){
         expect(entries.length).toEqual(filenames.length);
       })
-      .finally(() => done(), done);
+      .then(() => done(), done);
   });
 });
