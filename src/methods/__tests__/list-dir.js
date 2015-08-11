@@ -21,7 +21,7 @@ describe('listDir methods', function(){
 
   beforeEach(function(done){
     init()
-      .then(() => mkdir(dirPath, false))
+      .then(() => mkdir(dirPath))
       .then(function(){
         const len = filenames.length;
         return map(filenames, (val, idx) => {

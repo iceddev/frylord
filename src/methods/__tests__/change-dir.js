@@ -24,7 +24,6 @@ describe('changeDir methods', function(){
 
   beforeEach(function(done){
     init()
-      // get a `global leak detected: opt_errorcallback` error when false is omitted
       .then(() => mkdir(path))
       .then(() => write(entry, opts))
       .then(() => cd(initPath))
