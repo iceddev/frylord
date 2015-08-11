@@ -2,19 +2,10 @@
 
 const when = require('when');
 
-const { UPDATE_FILENAME } = require('../constants');
-
-function createAction(filename){
-  return {
-    type: UPDATE_FILENAME,
-    payload: {
-      filename
-    }
-  };
-}
+const { updateFilenameSuccess } = require('update-filename-success');
 
 function updateFilename(filename){
-  return when.resolve(createAction(filename));
+  return when.resolve(updateFilenameSuccess(filename));
 }
 
 module.exports = updateFilename;

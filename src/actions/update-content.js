@@ -2,20 +2,10 @@
 
 const when = require('when');
 
-const { UPDATE_CONTENT } = require('../constants');
-
-function createAction(content){
-  return {
-    type: UPDATE_CONTENT,
-    payload: {
-      content,
-      unsaved: true
-    }
-  };
-}
+const { updateContentSuccess } = require('../creators');
 
 function updateContent(content){
-  return when.resolve(createAction(content));
+  return when.resolve(updateContentSuccess(content));
 }
 
 module.exports = updateContent;
