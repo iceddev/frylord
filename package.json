@@ -19,8 +19,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "zuul test/*.js --local --open",
-    "ci": "zuul test/*.js --electron",
+    "test": "npm run lint && zuul ./src/**/__tests__/**/*.js --local --open --test",
+    "ci": "npm run lint && zuul ./src/**/__tests__/**/*.js --electron --test",
+    "lint": "eslint ./src/",
     "build": "babel ./src/ --out-dir ./",
     "example": "webpack-dev-server",
     "prepublish": "npm run build"
@@ -42,14 +43,20 @@
   "homepage": "https://github.com/iceddev/frylord",
   "devDependencies": {
     "babel": "^5.6.23",
+    "babel-core": "^5.8.20",
+    "babel-loader": "^5.3.2",
+    "eslint": "^1.1.0",
     "expect": "^1.8.0",
+    "flux-standard-action": "^0.6.0",
+    "isparta-loader": "^0.2.0",
     "node-libs-browser": "^0.5.2",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1",
-    "zuul": "^3.2.0"
+    "zuul": "^3.2.0",
+    "zuul-builder-webpack": "^1.1.0"
   },
   "dependencies": {
-    "@phated/filer": "^0.2.4",
+    "@phated/filer": "^0.2.5",
     "level-js": "^2.2.1",
     "levelup": "^0.19.0",
     "lodash": "^3.10.0",
