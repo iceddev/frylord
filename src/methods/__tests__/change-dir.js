@@ -20,11 +20,12 @@ describe('changeDir methods', function(){
     data: 'This is sample text',
     type: 'text/plain'
   };
+  let notExistPath;
 
   beforeEach(function(done){
     init()
       // get a `global leak detected: opt_errorcallback` error when false is omitted
-      .then(() => mkdir(path, false))
+      .then(() => mkdir(path))
       .then(() => write(entry, opts))
       .then(() => cd(initPath))
       .then(() => done(), done);
@@ -34,7 +35,17 @@ describe('changeDir methods', function(){
     init()
       .then(() => cd(initPath))
       .then(() => rm(path))
+      .then(function(){
+        if(notExistPath){
+          return rm(notExistPath);
+        }
+      })
       .then(() => done(), done);
+  });
+
+  afterEach(function(done){
+    notExistPath = null;
+    done();
   });
 
   it('changes directory to the argument if it exists', function(done){
@@ -46,7 +57,8 @@ describe('changeDir methods', function(){
   });
 
   it('throws an error if directory argument does not exist', function(done){
-    changeDir('/doesNotExist')
+    notExistPath = '/doesNotExist';
+    changeDir(notExistPath)
       .catch((err) => {
         expect(err.message).toContain('could not be found');
       })
