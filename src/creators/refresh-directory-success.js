@@ -7,7 +7,7 @@ function refreshDirectorySuccess(listing){
   return {
     type: REFRESH_DIRECTORY,
     payload: {
-      notification: `Current working directory updated'`,
+      notification: `Current working directory updated`,
       status: REFRESH_DIRECTORY_SUCCESS,
       listing
     }
