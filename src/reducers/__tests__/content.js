@@ -3,7 +3,12 @@
 const expect = require('expect');
 
 const content = require('../content');
-const { CHANGE_FILE, UPDATE_CONTENT } = require('../../constants');
+const {
+  CHANGE_FILE,
+  UPDATE_CONTENT,
+  RESET_FILE,
+  NEW_FILE
+} = require('../../constants');
 
 describe('content reducer', function(){
   const payload = { content: 'test' };
@@ -24,6 +29,14 @@ describe('content reducer', function(){
     done();
   });
 
+  it('returns an empty string when type matches RESET_FILE', function(done){
+    const initial = 'Has Content';
+    const type = RESET_FILE;
+    const state = content(initial, { type, payload });
+    expect(state).toEqual('');
+    done();
+  });
+
   describe('returns state equal to payload.content when type matches', function(){
     it('CHANGE_FILE', function(done){
       const initial = '';
@@ -36,6 +49,14 @@ describe('content reducer', function(){
     it('UPDATE_CONTENT', function(done){
       const initial = '';
       const type = UPDATE_CONTENT;
+      const state = content(initial, { type, payload });
+      expect(state).toEqual(payload.content);
+      done();
+    });
+
+    it('NEW_FILE', function(done){
+      const initial = '';
+      const type = NEW_FILE;
       const state = content(initial, { type, payload });
       expect(state).toEqual(payload.content);
       done();
