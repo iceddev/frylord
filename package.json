@@ -52,7 +52,7 @@
     "node-libs-browser": "^0.5.2",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1",
-    "zuul": "^3.2.0",
+    "zuul": "^3.3.0",
     "zuul-builder-webpack": "^1.1.0"
   },
   "dependencies": {
