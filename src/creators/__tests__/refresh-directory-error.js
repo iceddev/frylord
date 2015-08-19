@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('expect');
-const { keys, isEqual } = require('lodash');
+const { pick } = require('lodash');
 const { isFSA } = require('flux-standard-action');
 
 const { refreshDirectoryError } = require('../');
@@ -9,19 +9,8 @@ const { ERROR } = require('../../constants');
 const { REFRESH_DIRECTORY_FAILURE } = require('../../status-constants');
 
 describe(`refreshDirectoryError creator`, function(){
-  const actionProperties = [
-    'type',
-    'payload'
-  ];
-  const payloadProperties = [
-    'notification',
-    'status',
-    'error'
-  ];
   const err = new Error('Refresh dir error');
   const action = refreshDirectoryError(err);
-  const actionKeys = keys(action);
-  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -43,13 +32,13 @@ describe(`refreshDirectoryError creator`, function(){
     done();
   });
 
-  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
-    done();
-  });
-
-  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
+  it(`returns an action.payload object that only has known properties`, function(done){
+    const expectedProps = [
+      'notification',
+      'status',
+      'error'
+    ];
+    expect(pick(action.payload, expectedProps)).toEqual(action.payload);
     done();
   });
 });

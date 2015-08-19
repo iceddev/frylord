@@ -1,8 +1,8 @@
 'use strict';
 
 const expect = require('expect');
+const { pick, includes } = require('lodash');
 const { isFSA } = require('flux-standard-action');
-const { keys, isEqual, includes } = require('lodash');
 
 const { changeFileError } = require('../');
 const { ERROR } = require('../../constants');
@@ -10,21 +10,9 @@ const { CHANGE_FILE_FAILURE } = require('../../status-constants');
 
 
 describe(`changeFileError creator`, function(){
-  const actionProperties = [
-    'type',
-    'payload'
-  ];
-  const payloadProperties = [
-    'notification',
-    'status',
-    'error',
-    'args'
-  ];
   const filename = 'changeFileName.txt';
   const err = new Error('Change file error');
   const action = changeFileError(filename, err);
-  const actionKeys = keys(action);
-  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -61,13 +49,14 @@ describe(`changeFileError creator`, function(){
     done();
   });
 
-  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
-    done();
-  });
-
-  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
+  it(`returns an action.payload object that only has known properties`, function(done){
+    const expectedProps = [
+      'notification',
+      'status',
+      'error',
+      'args'
+    ];
+    expect(pick(action.payload, expectedProps)).toEqual(action.payload);
     done();
   });
 });

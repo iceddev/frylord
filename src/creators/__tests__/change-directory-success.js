@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('expect');
-const { keys, isEqual } = require('lodash');
+const { pick } = require('lodash');
 const { isFSA } = require('flux-standard-action');
 
 const { changeDirectorySuccess } = require('../');
@@ -9,17 +9,6 @@ const { CHANGE_DIRECTORY } = require('../../constants');
 const { CHANGE_DIRECTORY_SUCCESS } = require('../../status-constants');
 
 describe('changeDirectorySuccess creator', function(){
-  const actionProperties = [
-    'type',
-    'payload'
-  ];
-  const payloadProperties = [
-    'notification',
-    'status',
-    'cwd',
-    'listing',
-    'projects'
-  ];
   const data = {
     cwd: 'changeDirectorySuccess/',
     listing: [
@@ -32,8 +21,6 @@ describe('changeDirectorySuccess creator', function(){
     ]
   };
   const action = changeDirectorySuccess(data);
-  const actionKeys = keys(action);
-  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -70,13 +57,15 @@ describe('changeDirectorySuccess creator', function(){
     done();
   });
 
-  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
-    done();
-  });
-
-  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
+  it(`returns an action.payload object that only has known properties`, function(done){
+    const expectedProps = [
+      'notification',
+      'status',
+      'cwd',
+      'listing',
+      'projects'
+    ];
+    expect(pick(action.payload, expectedProps)).toEqual(action.payload);
     done();
   });
 });

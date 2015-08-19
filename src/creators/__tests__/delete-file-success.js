@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('expect');
-const { keys, isEqual } = require('lodash');
+const { pick } = require('lodash');
 const { isFSA } = require('flux-standard-action');
 
 const { deleteFileSuccess } = require('../');
@@ -9,16 +9,6 @@ const { DELETE_FILE } = require('../../constants');
 const { DELETE_FILE_SUCCESS } = require('../../status-constants');
 
 describe('deleteFileSuccess creator', function(){
-  const actionProperties = [
-    'type',
-    'payload'
-  ];
-  const payloadProperties = [
-    'notification',
-    'status',
-    'listing',
-    'filename'
-  ];
   const data = {
     listing: [
       'file1.txt',
@@ -27,8 +17,6 @@ describe('deleteFileSuccess creator', function(){
     filename: 'deleteFileSuccess.txt'
   };
   const action = deleteFileSuccess(data);
-  const actionKeys = keys(action);
-  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -60,13 +48,14 @@ describe('deleteFileSuccess creator', function(){
     done();
   });
 
-  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
-    done();
-  });
-
-  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
-    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
+  it(`returns an action.payload object that only has known properties`, function(done){
+    const expectedProps = [
+      'notification',
+      'status',
+      'listing',
+      'filename'
+    ];
+    expect(pick(action.payload, expectedProps)).toEqual(action.payload);
     done();
   });
 });
