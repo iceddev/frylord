@@ -1,6 +1,7 @@
 'use strict';
 
 const expect = require('expect');
+const { keys, isEqual } = require('lodash');
 const { isFSA } = require('flux-standard-action');
 
 const { deleteDirectorySuccess } = require('../');
@@ -8,6 +9,16 @@ const { DELETE_DIRECTORY } = require('../../constants');
 const { DELETE_DIRECTORY_SUCCESS } = require('../../status-constants');
 
 describe('deleteDirectorySuccess creator', function(){
+  const actionProperties = [
+    'type',
+    'payload'
+  ];
+  const payloadProperties = [
+    'notification',
+    'status',
+    'listing',
+    'projects'
+  ];
   const data = {
     dirpath: 'deleteDirectorySuccess/',
     listing: [
@@ -20,6 +31,8 @@ describe('deleteDirectorySuccess creator', function(){
     ]
   };
   const action = deleteDirectorySuccess(data);
+  const actionKeys = keys(action);
+  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -48,6 +61,16 @@ describe('deleteDirectorySuccess creator', function(){
 
   it(`attaches the 'projects' property of data arg to action.payload`, function(done){
     expect(action.payload.projects).toEqual(data.projects);
+    done();
+  });
+
+  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
+    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
+    done();
+  });
+
+  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
+    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
     done();
   });
 });

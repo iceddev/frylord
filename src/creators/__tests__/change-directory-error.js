@@ -2,6 +2,7 @@
 
 const expect = require('expect');
 const { isFSA } = require('flux-standard-action');
+const { keys, isEqual } = require('lodash');
 
 const { changeDirectoryError } = require('../');
 const { ERROR } = require('../../constants');
@@ -9,9 +10,20 @@ const { CHANGE_DIRECTORY_FAILURE } = require('../../status-constants');
 
 
 describe(`changeDirectoryError creator`, function(){
+  const actionProperties = [
+    'type',
+    'payload'
+  ];
+  const payloadProperties = [
+    'notification',
+    'status',
+    'error'
+  ];
   const dirpath = 'change/directory/error/';
   const err = new Error('Change dir error');
   const action = changeDirectoryError(dirpath, err);
+  const actionKeys = keys(action);
+  const payloadKeys = keys(action.payload);
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(action)).toEqual(true);
@@ -35,6 +47,16 @@ describe(`changeDirectoryError creator`, function(){
 
   it(`returns the original error in payload.error`, function(done){
     expect(action.payload.error).toEqual(err);
+    done();
+  });
+
+  it(`returns an action object that only has ${actionProperties.length} known ${actionProperties.length === 1 ? 'property' : 'properties'}`, function(done){
+    expect(isEqual(actionKeys, actionProperties)).toEqual(true);
+    done();
+  });
+
+  it(`returns an action.payload object that only has ${payloadProperties.length} known ${payloadProperties.length === 1 ? 'property' : 'properties'}`, function(done){
+    expect(isEqual(payloadKeys, payloadProperties)).toEqual(true);
     done();
   });
 });
