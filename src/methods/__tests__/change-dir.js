@@ -22,24 +22,22 @@ describe('changeDir methods', function(){
   };
   let notExistPath;
 
-  beforeEach(function(done){
-    init()
+  beforeEach(function(){
+    return init()
       .then(() => mkdir(path))
       .then(() => write(entry, opts))
-      .then(() => cd(initPath))
-      .then(() => done(), done);
+      .then(() => cd(initPath));
   });
 
-  afterEach(function(done){
-    init()
+  afterEach(function(){
+    return init()
       .then(() => cd(initPath))
       .then(() => rm(path))
       .then(function(){
         if(notExistPath){
           return rm(notExistPath);
         }
-      })
-      .then(() => done(), done);
+      });
   });
 
   afterEach(function(done){
@@ -47,20 +45,18 @@ describe('changeDir methods', function(){
     done();
   });
 
-  it('changes directory to the argument if it exists', function(done){
-    changeDir(path)
+  it('changes directory to the argument if it exists', function(){
+    return changeDir(path)
       .then((fullPath) => {
         expect(fullPath).toEqual(path);
-      })
-      .then(() => done(), done);
+      });
   });
 
-  it('throws an error if directory argument does not exist', function(done){
+  it('throws an error if directory argument does not exist', function(){
     notExistPath = '/doesNotExist';
-    changeDir(notExistPath)
+    return changeDir(notExistPath)
       .catch((err) => {
         expect(err.message).toContain('could not be found');
-      })
-      .then(() => done(), done);
+      });
   });
 });

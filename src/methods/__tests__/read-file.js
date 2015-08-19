@@ -12,31 +12,27 @@ describe('readFile methods', function(){
     type: 'text/plain'
   };
 
-  beforeEach(function(done){
-    init()
-      .then(() => write(filepath, opts))
-      .then(() => done(), done);
+  beforeEach(function(){
+    return init()
+      .then(() => write(filepath, opts));
   });
 
-  afterEach(function(done){
-    init()
-      .then(() => rm(filepath))
-      .then(() => done(), done);
+  afterEach(function(){
+    return init()
+      .then(() => rm(filepath));
   });
 
-  it('returns text when passed a valid filepath', function(done){
-    readFile(filepath)
+  it('returns text when passed a valid filepath', function(){
+    return readFile(filepath)
       .then(function(text){
         expect(text).toEqual(opts.data);
-      })
-      .then(() => done(), done);
+      });
   });
 
-  it('returns an a rejected promise when filepath is not valid', function(done){
-    readFile('doesNotExist.txt')
+  it('returns an a rejected promise when filepath is not valid', function(){
+    return readFile('doesNotExist.txt')
       .catch((err) => {
         expect(err.message).toContain('could not be found');
-      })
-      .then(() => done(), done);
+      });
   });
 });

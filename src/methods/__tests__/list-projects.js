@@ -21,25 +21,22 @@ const dirPath = '/';
 
 describe('listProjects methods', function(){
 
-  beforeEach(function(done){
-    init()
+  beforeEach(function(){
+    return init()
       .then(() => cd(dirPath))
-      .then(() => map(projects, (val) => mkdir(val, false)))
-      .then(() => done(), done);
+      .then(() => map(projects, (val) => mkdir(val, false)));
   });
 
-  afterEach(function(done){
-    init()
+  afterEach(function(){
+    return init()
       .then(() => ls(dirPath))
-      .then((entries) => map(entries, (entry) => rm(entry)))
-      .then(() => done(), done);
+      .then((entries) => map(entries, (entry) => rm(entry)));
   });
 
-  it('returns the projects in a given directory', function(done){
-    listProjects()
+  it('returns the projects in a given directory', function(){
+    return listProjects()
       .then(function(projectsArr){
         expect(projectsArr.length).toEqual(projects.length);
-      })
-      .then(() => done(), done);
+      });
   });
 });

@@ -19,8 +19,8 @@ const filenames = _.map(new Array(5), (val, idx) => {
 
 describe('listDir methods', function(){
 
-  beforeEach(function(done){
-    init()
+  beforeEach(function(){
+    return init()
       .then(() => mkdir(dirPath))
       .then(function(){
         const len = filenames.length;
@@ -30,21 +30,18 @@ describe('listDir methods', function(){
             type: 'text/plain'
           });
         });
-      })
-      .then(() => done(), done);
+      });
   });
 
-  afterEach(function(done){
-    init()
-      .then(() => rm(dirPath))
-      .then(() => done(), done);
+  afterEach(function(){
+    return init()
+      .then(() => rm(dirPath));
   });
 
-  it('lists all entries in argument specified directory', function(done){
-    listDir(dirPath)
+  it('lists all entries in argument specified directory', function(){
+    return listDir(dirPath)
       .then(function(entries){
         expect(entries.length).toEqual(filenames.length);
-      })
-      .then(() => done(), done);
+      });
   });
 });

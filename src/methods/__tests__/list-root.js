@@ -19,8 +19,8 @@ const filenames = _.map(new Array(5), (val, idx) => {
 
 describe('listRoot methods', function(){
 
-  beforeEach(function(done){
-    init()
+  beforeEach(function(){
+    return init()
       .then(function(){
         const len = filenames.length;
         return map(filenames, (val, idx) => {
@@ -29,22 +29,19 @@ describe('listRoot methods', function(){
             type: 'text/plain'
           });
         });
-      })
-      .then(() => done(), done);
+      });
   });
 
-  afterEach(function(done){
-    init()
+  afterEach(function(){
+    return init()
       .then(() => ls(dirPath))
-      .then((entries) => map(entries, (entry) => rm(entry.fullPath)))
-      .then(() => done(), done);
+      .then((entries) => map(entries, (entry) => rm(entry.fullPath)));
   });
 
-  it('lists all entries in the root directory', function(done){
-    listRoot()
+  it('lists all entries in the root directory', function(){
+    return listRoot()
       .then(function(entries){
         expect(entries.length).toEqual(filenames.length);
-      })
-      .then(() => done(), done);
+      });
   });
 });
