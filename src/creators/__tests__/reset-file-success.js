@@ -7,17 +7,7 @@ const { resetFileSuccess } = require('../');
 const { RESET_FILE } = require('../../constants');
 
 describe('resetFileSuccess creator', function(){
-  let creaction;
-
-  before(function(done){
-    creaction = resetFileSuccess();
-    done();
-  });
-
-  after(function(done){
-    creaction = null;
-    done();
-  });
+  const creaction = resetFileSuccess();
 
   it(`returns a 'Flux Standard Action'`, function(done){
     expect(isFSA(creaction)).toEqual(true);

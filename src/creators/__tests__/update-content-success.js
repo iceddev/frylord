@@ -7,37 +7,27 @@ const { updateContentSuccess } = require('../');
 const { UPDATE_CONTENT } = require('../../constants');
 
 describe('updateContentSuccess creator', function(){
-  let filename, content, creaction;
-
-  before(function(done){
-    filename = 'updateContentSuccess.txt';
-    content = `The content of ${filename}`;
-    creaction = updateContentSuccess(content);
-    done();
-  });
-
-  after(function(done){
-    filename = content = creaction = null;
-    done();
-  });
+  const filename = 'updateContentSuccess.txt';
+  const content = `The content of ${filename}`;
+  const action = updateContentSuccess(content);
 
   it(`returns a 'Flux Standard Action'`, function(done){
-    expect(isFSA(creaction)).toEqual(true);
+    expect(isFSA(action)).toEqual(true);
     done();
   });
 
-  it(`returns an action with type equal to '${UPDATE_CONTENT}'`, function(done){
-    expect(creaction.type).toEqual(UPDATE_CONTENT);
+  it(`returns an action with type equal to 'UPDATE_CONTENT'`, function(done){
+    expect(action.type).toEqual(UPDATE_CONTENT);
     done();
   });
 
   it(`returns an action.payload.unsaved that equals 'true'`, function(done){
-    expect(creaction.payload.unsaved).toEqual(true);
+    expect(action.payload.unsaved).toEqual(true);
     done();
   });
 
   it(`attaches the 'content' argument to action.payload`, function(done){
-    expect(creaction.payload.content).toEqual(content);
+    expect(action.payload.content).toEqual(content);
     done();
   });
 });

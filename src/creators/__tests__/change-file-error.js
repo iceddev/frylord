@@ -9,52 +9,41 @@ const { ERROR } = require('../../constants');
 const { CHANGE_FILE_FAILURE } = require('../../status-constants');
 
 
-describe('changeFileError creator', function(){
-  function ChangeFileError(message) {
-    this.name = 'ChangeFileError';
-    this.message = message || 'Change file error';
-  }
-  ChangeFileError.prototype = Object.create(Error.prototype);
-  ChangeFileError.prototype.constructor = ChangeFileError;
+describe(`changeFileError creator`, function(){
+  const filename = 'changeFileName.txt';
+  const err = new Error('Change file error');
+  const action = changeFileError(filename, err);
 
-  let filename = 'changeFileName.txt';
-  let err = new ChangeFileError();
-  let creaction = changeFileError(filename, err);
-
-  after(function(){
-    creaction = filename = err = null;
-  });
-
-  it('returns a "Flux Standard Action', function(done){
-    expect(isFSA(creaction)).toEqual(true);
+  it(`returns a 'Flux Standard Action'`, function(done){
+    expect(isFSA(action)).toEqual(true);
     done();
   });
 
-  it(`returns an action with a type equal to '${ERROR}'`, function(done){
-    expect(creaction.type).toEqual(ERROR);
+  it(`returns an action with a type equal to 'ERROR'`, function(done){
+    expect(action.type).toEqual(ERROR);
     done();
   });
 
-  it('returns a payload.notification msg that includes the filename', function(done){
-    expect(creaction.payload.notification).toInclude(filename);
+  it(`returns a payload.notification msg that includes the filename`, function(done){
+    expect(action.payload.notification).toInclude(filename);
     done();
   });
 
-  it(`returns a payload.status that matches '${CHANGE_FILE_FAILURE}'`, function(done){
-    expect(creaction.payload.status).toEqual(CHANGE_FILE_FAILURE);
+  it(`returns a payload.status that matches 'CHANGE_FILE_FAILURE'`, function(done){
+    expect(action.payload.status).toEqual(CHANGE_FILE_FAILURE);
     done();
   });
 
-  it('returns the original error in payload.error', function(done){
-    expect(creaction.payload.error).toEqual(err);
+  it(`returns the original error in payload.error`, function(done){
+    expect(action.payload.error).toEqual(err);
     done();
   });
 
-  it('returns the original arguments in payload.args', function(done){
-    let args = creaction.payload.args;
+  it(`returns the original arguments in payload.args`, function(done){
+    let args = action.payload.args;
     let test = includes(args, filename);
     expect(test).toEqual(true);
-    args = creaction.payload.args;
+    args = action.payload.args;
     test = includes(args, err);
     expect(test).toEqual(true);
     done();

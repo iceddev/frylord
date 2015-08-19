@@ -8,47 +8,37 @@ const { CHANGE_FILE } = require('../../constants');
 const { CHANGE_FILE_SUCCESS } = require('../../status-constants');
 
 describe('changeFileSuccess creator', function(){
-  let filename, content, creaction;
-
-  before(function(done){
-    filename = 'changeFileSuccess.txt';
-    content = 'The content of the file';
-    creaction = changeFileSuccess(filename, content);
-    done();
-  });
-
-  after(function(done){
-    filename = content = creaction = null;
-    done();
-  });
+  const filename = 'changeFileSuccess.txt';
+  const content = 'The content of the file';
+  const action = changeFileSuccess(filename, content);
 
   it(`returns a 'Flux Standard Action'`, function(done){
-    expect(isFSA(creaction)).toEqual(true);
+    expect(isFSA(action)).toEqual(true);
     done();
   });
 
-  it(`returns an action with type equal to '${CHANGE_FILE}'`, function(done){
-    expect(creaction.type).toEqual(CHANGE_FILE);
+  it(`returns an action with type equal to 'CHANGE_FILE'`, function(done){
+    expect(action.type).toEqual(CHANGE_FILE);
     done();
   });
 
   it(`returns an action.payload.notification that includes filename`, function(done){
-    expect(creaction.payload.notification).toInclude(filename);
+    expect(action.payload.notification).toInclude(filename);
     done();
   });
 
-  it(`returns an action.payload.status that equals '${CHANGE_FILE_SUCCESS}'`, function(done){
-    expect(creaction.payload.status).toEqual(CHANGE_FILE_SUCCESS);
+  it(`returns an action.payload.status that equals 'CHANGE_FILE_SUCCESS'`, function(done){
+    expect(action.payload.status).toEqual(CHANGE_FILE_SUCCESS);
     done();
   });
 
   it(`attaches the 'filename' argument to action.payload`, function(done){
-    expect(creaction.payload.filename).toEqual(filename);
+    expect(action.payload.filename).toEqual(filename);
     done();
   });
 
   it(`attaches the 'content' argument to action.payload`, function(done){
-    expect(creaction.payload.content).toEqual(content);
+    expect(action.payload.content).toEqual(content);
     done();
   });
 });

@@ -9,43 +9,32 @@ const { DELETE_FILE_FAILURE } = require('../../status-constants');
 
 
 describe('deleteFileError creator', function(){
-  function DeleteFileError(message) {
-    this.name = 'DeleteFileError';
-    this.message = message || 'delete file error';
-  }
-  DeleteFileError.prototype = Object.create(Error.prototype);
-  DeleteFileError.prototype.constructor = DeleteFileError;
+  const filename = 'deleteFileError.txt';
+  const err = new Error('delete file error');
+  const action = deleteFileError(filename, err);
 
-  let filename = 'deleteFileError.txt';
-  let err = new DeleteFileError();
-  let creaction = deleteFileError(filename, err);
-
-  after(function(){
-    creaction = filename = err = null;
-  });
-
-  it('returns a "Flux Standard Action', function(done){
-    expect(isFSA(creaction)).toEqual(true);
+  it(`returns a 'Flux Standard Action'`, function(done){
+    expect(isFSA(action)).toEqual(true);
     done();
   });
 
-  it(`returns an action with a type equal to '${ERROR}'`, function(done){
-    expect(creaction.type).toEqual(ERROR);
+  it(`returns an action with a type equal to 'ERROR'`, function(done){
+    expect(action.type).toEqual(ERROR);
     done();
   });
 
-  it('returns a payload.notification msg that includes the filename', function(done){
-    expect(creaction.payload.notification).toInclude(filename);
+  it(`returns a payload.notification msg that includes the filename`, function(done){
+    expect(action.payload.notification).toInclude(filename);
     done();
   });
 
-  it(`returns a payload.status that matches '${DELETE_FILE_FAILURE}'`, function(done){
-    expect(creaction.payload.status).toEqual(DELETE_FILE_FAILURE);
+  it(`returns a payload.status that matches 'DELETE_FILE_FAILURE'`, function(done){
+    expect(action.payload.status).toEqual(DELETE_FILE_FAILURE);
     done();
   });
 
-  it('returns the original error in payload.error', function(done){
-    expect(creaction.payload.error).toEqual(err);
+  it(`returns the original error in payload.error`, function(done){
+    expect(action.payload.error).toEqual(err);
     done();
   });
 });
