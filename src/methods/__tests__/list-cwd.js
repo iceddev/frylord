@@ -20,8 +20,8 @@ const filenames = _.map(new Array(3), (val, idx) => {
 
 describe('listCwd methods', function(){
 
-  beforeEach(function(done){
-    init()
+  beforeEach(function(){
+    return init()
       .then(() => mkdir(dirPath))
       .then(function(){
         const len = filenames.length;
@@ -32,23 +32,20 @@ describe('listCwd methods', function(){
             type: 'text/plain'
           });
         });
-      })
-      .then(() => done(), done);
+      });
   });
 
-  afterEach(function(done){
-    init()
-      .then(() => rm(dirPath))
-      .then(() => done(), done);
+  afterEach(function(){
+    return init()
+      .then(() => rm(dirPath));
   });
 
-  it('lists all entries in the current working directory', function(done){
-    init()
+  it('lists all entries in the current working directory', function(){
+    return init()
       .then(() => cd(dirPath))
       .then(() => listCwd())
       .then(function(entries){
         expect(entries.length).toEqual(filenames.length);
-      })
-      .then(() => done(), done);
+      });
   });
 });
