@@ -13,11 +13,13 @@ describe('readAsText Util', function(){
       });
   });
 
-  it.skip('returns a rejected promise when file is not read', function(){
-    const file = new File('not file', Date.now());
+  it('throws an error if file is not read', function(){
+    const file = new Array(['not file', Date.now()]);
     return readAsText(file)
-      .then(function(text){
-        expect(text).toEqual('world');
+      .then(function(res){
+        throw Error('Should have thrown an error', res);
+      }, function(err){
+        expect(err.message).toInclude(`Failed to execute 'readAsText'`);
       });
   });
 });

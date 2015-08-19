@@ -2,19 +2,10 @@
 
 const when = require('when');
 
-const {
-  RESET_FILE
-} = require('../constants');
-
-function createAction(){
-  return {
-    type: RESET_FILE,
-    payload: {}
-  };
-}
+const { resetFileSuccess } = require('../creators');
 
 function resetFile(){
-  return when.resolve(createAction());
+  return when.resolve(resetFileSuccess());
 }
 
 module.exports = resetFile;

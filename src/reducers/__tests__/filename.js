@@ -5,7 +5,9 @@ const expect = require('expect');
 const filename = require('../filename');
 const {
   CHANGE_FILE,
-  UPDATE_FILENAME
+  UPDATE_FILENAME,
+  RESET_FILE,
+  NEW_FILE
 } = require('../../constants');
 
 describe('filename reducer', function(){
@@ -14,6 +16,14 @@ describe('filename reducer', function(){
   it('returns empty string when initial state is undefined and type is not matched', function(done){
     const initial = undefined;
     const type = undefined;
+    const state = filename(initial, { type, payload });
+    expect(state).toEqual('');
+    done();
+  });
+
+  it('returns an empty string when type matches RESET_FILE', function(done){
+    const initial = 'Has Content';
+    const type = RESET_FILE;
     const state = filename(initial, { type, payload });
     expect(state).toEqual('');
     done();
@@ -39,6 +49,14 @@ describe('filename reducer', function(){
     it('UPDATE_FILENAME', function(done){
       const initial = 'initial';
       const type = UPDATE_FILENAME;
+      const state = filename(initial, { type, payload });
+      expect(state).toEqual(payload.filename);
+      done();
+    });
+
+    it('NEW_FILE', function(done){
+      const initial = 'initial';
+      const type = NEW_FILE;
       const state = filename(initial, { type, payload });
       expect(state).toEqual(payload.filename);
       done();
