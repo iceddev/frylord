@@ -1,5 +1,12 @@
 {
+  "rules": {
+    "mocha/no-synchronous-tests": [2],
+    "mocha/handle-done-callback": [2]
+  },
   "env": {
     "mocha": true
-  }
+  },
+  "plugins": [
+    "mocha"
+  ]
 }
