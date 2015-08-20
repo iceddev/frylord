@@ -32,6 +32,7 @@ node_modules
 /utils
 /actions
 /methods
+/creators
 /reducers
 /middleware
 /temp-methods
