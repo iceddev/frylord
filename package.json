@@ -5,6 +5,7 @@
   "main": "index.js",
   "files": [
     "actions",
+    "creators",
     "methods",
     "middleware",
     "reducers",
