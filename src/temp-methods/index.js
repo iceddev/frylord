@@ -2,6 +2,7 @@
 
 const methods = {
   updateContent: require('./update-content'),
+  newFile: require('./new-file'),
   saveFile: require('./save-file'),
   deleteFile: require('./delete-file'),
   changeFile: require('./change-file'),

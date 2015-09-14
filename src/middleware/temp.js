@@ -3,6 +3,7 @@
 const {
   updateContent,
   changeFile,
+  newFile,
   saveFile,
   deleteFile,
   refreshDir
@@ -55,6 +56,8 @@ function tempMiddleware({ getState }){
       case CHANGE_FILE:
         return changeFile(action, state, next)
           .catch(() => next(action));
+      case NEW_FILE:
+        return newFile(action, state, next);
       case SAVE_FILE:
         return saveFile(action, state, next);
       case DELETE_FILE:
