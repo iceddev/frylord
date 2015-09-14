@@ -2,7 +2,7 @@
 
 const when = require('when');
 
-const { updateFilenameSuccess } = require('update-filename-success');
+const { updateFilenameSuccess } = require('../creators');
 
 function updateFilename(filename){
   return when.resolve(updateFilenameSuccess(filename));
