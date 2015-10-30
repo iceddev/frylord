@@ -10,7 +10,8 @@ const actions = {
   changeFile: require('./change-file'),
   deleteDirectory: require('./delete-directory'),
   changeDirectory: require('./change-directory'),
-  refreshDirectory: require('./refresh-directory')
+  refreshDirectory: require('./refresh-directory'),
+  listProjects: require('./list-projects')
 };
 
 module.exports = actions;

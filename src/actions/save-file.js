@@ -6,14 +6,15 @@ const pipeline = require('when/pipeline');
 const { saveFileSuccess, saveFileError } = require('../creators');
 const { writeFile, listCwd } = require('../methods');
 
-function write(filename, content){
-  return writeFile(filename, content).yield(filename);
+function write(filename, content, silent){
+  return writeFile(filename, content).yield({filename, silent});
 }
 
-function getData(filename){
+function getData({ filename, silent }){
   return keys.all({
     filename,
-    listing: listCwd()
+    listing: listCwd(),
+    silent
   });
 }
 
@@ -23,8 +24,8 @@ const seq = [
   saveFileSuccess
 ];
 
-function saveFile(filename, content){
-  return pipeline(seq, filename, content)
+function saveFile(filename, content, silent){
+  return pipeline(seq, filename, content, silent)
     .catch((err) => saveFileError(filename, err));
 }
 

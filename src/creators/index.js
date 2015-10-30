@@ -16,7 +16,9 @@ const creators = {
   saveFileSuccess: require('./save-file-success'),
   saveFileError: require('./save-file-error'),
   updateContentSuccess: require('./update-content-success'),
-  updateFilenameSuccess: require('./update-filename-success')
+  updateFilenameSuccess: require('./update-filename-success'),
+  listProjectsSuccess: require('./list-projects-success'),
+  listProjectsError: require('./list-projects-error')
 };
 
 module.exports = creators;
